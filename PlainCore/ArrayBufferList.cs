@@ -16,10 +16,19 @@ namespace PlainCore
 
         private T[] array;
         public T[] Buffer => array;
+        public int Capacity => array.Length;
         public T this[int index]
         {
-            get => array[index];
-            set => array[index] = value;
+            get
+            {
+                if (index < 0 || index >= Count) throw new IndexOutOfRangeException();
+                return array[index];
+            }
+            set
+            {
+                if (index < 0 || index >= Count) throw new IndexOutOfRangeException();
+                array[index] = value;
+            }
         }
 
         public int Count { get; private set; }
