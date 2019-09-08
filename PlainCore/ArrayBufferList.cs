@@ -38,7 +38,7 @@ namespace PlainCore
         protected void EnsureCapacity()
         {
             var len = array.Length;
-            if (Count > len)
+            if (Count >= len)
             {
                 int newLen = len * 2;
                 Array.Resize(ref array, newLen);
