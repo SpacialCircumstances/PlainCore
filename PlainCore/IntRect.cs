@@ -23,6 +23,11 @@ namespace PlainCore
         public int Top => Y;
         public int Bottom => Y + Height;
 
+        public FloatRect ToFloatRect()
+        {
+            return new FloatRect(X, Y, Width, Height);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is IntRect rect &&
