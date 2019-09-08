@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainCore", "PlainCore\PlainCore.csproj", "{C93DCEE1-5BC2-4528-A406-67CC571C3690}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E6F52983-F917-49AC-BA24-64FE3035AC9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainCore.HelloWorld", "PlainCore.HelloWorld\PlainCore.HelloWorld.csproj", "{105A3E42-3A94-443A-9B47-7646AC1E4D09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{C93DCEE1-5BC2-4528-A406-67CC571C3690}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C93DCEE1-5BC2-4528-A406-67CC571C3690}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C93DCEE1-5BC2-4528-A406-67CC571C3690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{105A3E42-3A94-443A-9B47-7646AC1E4D09} = {E6F52983-F917-49AC-BA24-64FE3035AC9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57908BF9-48DA-4D06-BAA8-30F95027B61A}
