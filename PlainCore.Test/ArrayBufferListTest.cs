@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace PlainCore.Test
 {
@@ -40,6 +42,30 @@ namespace PlainCore.Test
             Assert.True(list.Buffer.Length >= 12);
             list.Clear();
             Assert.True(list.Capacity >= 12);
+        }
+
+        [Fact]
+        public void Iterating()
+        {
+            var testList = new ArrayBufferList<string>();
+            var checkList = new List<string>();
+
+            for (int i = 0; i < 13; i++)
+            {
+                var str = $"test{i}";
+                testList.Add(str);
+                checkList.Add(str);
+            }
+
+            foreach (var s in testList)
+            {
+                Assert.Contains(s, checkList);
+            }
+
+            //Check if elements are identical
+            testList
+                .Zip(checkList, (a, b) => a == b)
+                .All(x => x);
         }
     }
 }
