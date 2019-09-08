@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainCore.HelloWorld", "PlainCore.HelloWorld\PlainCore.HelloWorld.csproj", "{105A3E42-3A94-443A-9B47-7646AC1E4D09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainCore.Test", "PlainCore.Test\PlainCore.Test.csproj", "{6383A40A-B56A-4F0A-82F1-E597464E831B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{105A3E42-3A94-443A-9B47-7646AC1E4D09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6383A40A-B56A-4F0A-82F1-E597464E831B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6383A40A-B56A-4F0A-82F1-E597464E831B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6383A40A-B56A-4F0A-82F1-E597464E831B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6383A40A-B56A-4F0A-82F1-E597464E831B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
