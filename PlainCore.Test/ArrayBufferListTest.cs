@@ -63,9 +63,10 @@ namespace PlainCore.Test
             }
 
             //Check if elements are identical
-            testList
+            Assert.True(
+                testList
                 .Zip(checkList, (a, b) => a == b)
-                .All(x => x);
+                .All(x => x));
         }
     }
 }
