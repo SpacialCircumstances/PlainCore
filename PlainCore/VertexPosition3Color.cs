@@ -6,26 +6,26 @@ using Veldrid;
 namespace PlainCore
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPositionColor : IVertex
+    public struct VertexPosition3Color : IVertex
     {
         public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
-                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
+                new VertexElementDescription("Position", VertexElementFormat.Float3, VertexElementSemantic.Position),
                 new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.Color)
             );
 
-        public VertexPositionColor(Vector2 position, RgbaFloat color)
+        public VertexPosition3Color(Vector3 position, RgbaFloat color)
         {
             Position = position;
             Color = color;
         }
 
-        public Vector2 Position { get; }
+        public Vector3 Position { get; }
         public RgbaFloat Color { get; }
         VertexLayoutDescription IVertex.VertexLayout => VertexLayout;
 
         public override bool Equals(object obj)
         {
-            return obj is VertexPositionColor color &&
+            return obj is VertexPosition3Color color &&
                    Position.Equals(color.Position) &&
                    Color.Equals(color.Color);
         }
