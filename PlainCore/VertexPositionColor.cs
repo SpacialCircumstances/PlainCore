@@ -6,7 +6,7 @@ using Veldrid;
 namespace PlainCore
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPositionColor
+    public struct VertexPositionColor : IVertex
     {
         public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
                 new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
@@ -21,6 +21,7 @@ namespace PlainCore
 
         public Vector2 Position { get; }
         public RgbaFloat Color { get; }
+        VertexLayoutDescription IVertex.VertexLayout => VertexLayout;
 
         public override bool Equals(object obj)
         {
