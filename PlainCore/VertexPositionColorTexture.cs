@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using Veldrid;
 
 namespace PlainCore
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct VertexPositionColorTexture
     {
+        public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
+                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
+                new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.Color),
+                new VertexElementDescription("TextureCoordinates", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
+            );
+
         public VertexPositionColorTexture(Vector2 position, RgbaFloat color, Vector2 textureCoordinates)
         {
             Position = position;

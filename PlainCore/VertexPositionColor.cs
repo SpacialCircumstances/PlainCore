@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
+using System.Runtime.InteropServices;
 using Veldrid;
 
 namespace PlainCore
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct VertexPositionColor
     {
+        public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
+                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
+                new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.Color)
+            );
+
         public VertexPositionColor(Vector2 position, RgbaFloat color)
         {
             Position = position;
