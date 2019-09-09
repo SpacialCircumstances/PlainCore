@@ -33,8 +33,8 @@ namespace PlainCore
         public override int GetHashCode()
         {
             var hashCode = -484238027;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2>.Default.GetHashCode(Position);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2>.Default.GetHashCode(TextureCoordinates);
+            hashCode = hashCode * -1521134295 + Position.GetHashCode();
+            hashCode = hashCode * -1521134295 + TextureCoordinates.GetHashCode();
             return hashCode;
         }
     }

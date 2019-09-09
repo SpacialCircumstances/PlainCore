@@ -37,9 +37,9 @@ namespace PlainCore
         public override int GetHashCode()
         {
             var hashCode = 962000893;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2>.Default.GetHashCode(Position);
-            hashCode = hashCode * -1521134295 + EqualityComparer<RgbaFloat>.Default.GetHashCode(Color);
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vector2>.Default.GetHashCode(TextureCoordinates);
+            hashCode = hashCode * -1521134295 + Position.GetHashCode();
+            hashCode = hashCode * -1521134295 + Color.GetHashCode();
+            hashCode = hashCode * -1521134295 + TextureCoordinates.GetHashCode();
             return hashCode;
         }
     }

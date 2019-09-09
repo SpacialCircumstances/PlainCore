@@ -1,4 +1,5 @@
-﻿using Veldrid;
+﻿using System.Collections.Generic;
+using Veldrid;
 
 namespace PlainCore
 {
@@ -18,5 +19,20 @@ namespace PlainCore
 
         public int Height => (int)Texture.Height;
         public int Width => (int)Texture.Width;
+
+        public override bool Equals(object obj)
+        {
+            return obj is Texture2D d &&
+                   Texture.Equals(d.Texture) &&
+                   TextureView.Equals(d.TextureView);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -507090303;
+            hashCode = hashCode * -1521134295 + Texture.GetHashCode();
+            hashCode = hashCode * -1521134295 + TextureView.GetHashCode();
+            return hashCode;
+        }
     }
 }
