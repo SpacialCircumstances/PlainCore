@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
 
-namespace PlainCore
+namespace PlainCore.Vertices
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct VertexPosition3Color : IVertex
