@@ -22,6 +22,7 @@ namespace PlainCore.Vertices
         public Vector3 Position { get; }
         public RgbaFloat Color { get; }
         VertexLayoutDescription IVertex.VertexLayout => VertexLayout;
+        public uint Size => 12 + 16;
 
         public override bool Equals(object obj)
         {

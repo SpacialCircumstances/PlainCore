@@ -21,7 +21,7 @@ namespace PlainCore.Vertices
         public Vector3 Position { get; }
         public Vector2 TextureCoordinates { get; }
         VertexLayoutDescription IVertex.VertexLayout => VertexLayout;
-
+        public uint Size => 12 + 8;
         public override bool Equals(object obj)
         {
             return obj is VertexPosition3Texture texture &&

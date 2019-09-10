@@ -1,9 +1,10 @@
 ﻿using Veldrid;
 
-namespace PlainCore
+namespace PlainCore.Vertices
 {
     public interface IVertex
     {
         VertexLayoutDescription VertexLayout { get; }
+        uint Size { get; }
     }
 }
