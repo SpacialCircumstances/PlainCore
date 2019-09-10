@@ -13,6 +13,9 @@ namespace PlainCore
         private ushort[] indices = new ushort[64 * 6];
         private VertexPosition3ColorTexture[] vertices = new VertexPosition3ColorTexture[64 * 4];
 
+        private DeviceBuffer indexBuffer;
+        private DeviceBuffer vertexBuffer;
+
         public SpriteRenderer(GraphicsDevice device)
         {
             this.device = device;
@@ -20,20 +23,67 @@ namespace PlainCore
 
         public void Initialize()
         {
-            commandList = device.ResourceFactory.CreateCommandList();
+            var factory = device.ResourceFactory;
+            commandList = factory.CreateCommandList();
+
+            var indexBufferDescription = new BufferDescription(sizeof(ushort) * MAX_BATCH * 6, BufferUsage.IndexBuffer | BufferUsage.Dynamic);
+            indexBuffer = factory.CreateBuffer(indexBufferDescription);
+
+            var vertexBufferDescription = new BufferDescription(default(VertexPosition3ColorTexture).Size, BufferUsage.VertexBuffer | BufferUsage.Dynamic);
+            vertexBuffer = factory.CreateBuffer(vertexBufferDescription);
         }
 
-        public void Render(SpriteBatch batch)
+        public unsafe void Render(SpriteBatch batch)
         {
             var sprites = batch.GetSprites();
             int spriteCount = sprites.Length;
+            int batchIndex = 0;
 
             EnsureIndices(Math.Min(spriteCount, MAX_BATCH));
 
             while (spriteCount > 0)
             {
+                var startIndex = 0;
+                var index = 0;
+                Texture2D tex = null;
 
+                int batchSize = Math.Min(spriteCount, MAX_BATCH);
+
+                fixed (VertexPosition3ColorTexture* vertexArrayFixedPtr = vertices)
+                {
+                    var vertexArrayPtr = vertexArrayFixedPtr;
+
+                    for (int i = 0; i < batchSize; i++, batchIndex++, index += 4, vertexArrayPtr += 4)
+                    {
+                        var item = sprites[batchIndex];
+
+                        var shouldFlush = !ReferenceEquals(item.Texture, tex);
+                        if (shouldFlush)
+                        {
+                            FlushVertexArray(startIndex, index, tex);
+
+                            tex = item.Texture;
+                            startIndex = 0;
+                            index = 0;
+                            vertexArrayPtr = vertexArrayFixedPtr;
+                        }
+
+                        *(vertexArrayPtr + 0) = item.TopLeft;
+                        *(vertexArrayPtr + 1) = item.TopRight;
+                        *(vertexArrayPtr + 2) = item.BottomLeft;
+                        *(vertexArrayPtr + 3) = item.BottomRight;
+                    }
+                }
+
+                FlushVertexArray(startIndex, index, tex);
+
+                spriteCount -= batchSize;
             }
+        }
+
+        protected void FlushVertexArray(int startIndex, int index, Texture2D texture)
+        {
+
         }
 
         protected void EnsureIndices(int spriteCount)
@@ -54,6 +104,8 @@ namespace PlainCore
                     indices[idx + 4] = (ushort)(vertex + 3);
                     indices[idx + 5] = (ushort)(vertex + 2);
                 }
+
+                device.UpdateBuffer(indexBuffer, 0, indices);
             }
 
             if (vertices.Length < spriteCount * 4)
