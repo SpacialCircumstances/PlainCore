@@ -7,6 +7,7 @@ namespace PlainCore
     public class SpriteRenderer
     {
         private const int MAX_BATCH = 1024;
+        private static readonly uint VERTEX_SIZE = default(VertexPosition3ColorTexture).Size;
 
         private readonly GraphicsDevice device;
         private CommandList commandList;
@@ -29,7 +30,7 @@ namespace PlainCore
             var indexBufferDescription = new BufferDescription(sizeof(ushort) * MAX_BATCH * 6, BufferUsage.IndexBuffer | BufferUsage.Dynamic);
             indexBuffer = factory.CreateBuffer(indexBufferDescription);
 
-            var vertexBufferDescription = new BufferDescription(default(VertexPosition3ColorTexture).Size, BufferUsage.VertexBuffer | BufferUsage.Dynamic);
+            var vertexBufferDescription = new BufferDescription(VERTEX_SIZE * MAX_BATCH * 4, BufferUsage.VertexBuffer | BufferUsage.Dynamic);
             vertexBuffer = factory.CreateBuffer(vertexBufferDescription);
         }
 
@@ -43,7 +44,6 @@ namespace PlainCore
 
             while (spriteCount > 0)
             {
-                var startIndex = 0;
                 var index = 0;
                 Texture2D tex = null;
 
@@ -60,10 +60,9 @@ namespace PlainCore
                         var shouldFlush = !ReferenceEquals(item.Texture, tex);
                         if (shouldFlush)
                         {
-                            FlushVertexArray(startIndex, index, tex);
+                            FlushVertexArray(vertexArrayFixedPtr, index, tex);
 
                             tex = item.Texture;
-                            startIndex = 0;
                             index = 0;
                             vertexArrayPtr = vertexArrayFixedPtr;
                         }
@@ -73,17 +72,19 @@ namespace PlainCore
                         *(vertexArrayPtr + 2) = item.BottomLeft;
                         *(vertexArrayPtr + 3) = item.BottomRight;
                     }
-                }
 
-                FlushVertexArray(startIndex, index, tex);
+                    FlushVertexArray(vertexArrayFixedPtr, index, tex);
+                }
 
                 spriteCount -= batchSize;
             }
         }
 
-        protected void FlushVertexArray(int startIndex, int index, Texture2D texture)
+        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture)
         {
+            device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
 
+            //TODO: Draw the stuff
         }
 
         protected void EnsureIndices(int spriteCount)
