@@ -5,7 +5,7 @@ using Veldrid;
 
 namespace PlainCore
 {
-    class SpriteBatch
+    public class SpriteBatch
     {
         public SpriteBatch()
         {
