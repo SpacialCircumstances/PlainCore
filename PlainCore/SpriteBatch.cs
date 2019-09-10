@@ -112,7 +112,9 @@ namespace PlainCore
             {
                 throw new InvalidOperationException("Begin() must be called before calling End()");
             }
-            //TODO: Sort sprites
+
+            Array.Sort(sprites.Buffer, 0, sprites.Count);
+
             batching = false;
         }
 

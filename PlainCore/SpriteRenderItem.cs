@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using PlainCore.Vertices;
 
 namespace PlainCore
 {
-    public struct SpriteRenderItem
+    public struct SpriteRenderItem: IComparable<SpriteRenderItem>
     {
         public SpriteRenderItem(VertexPosition3ColorTexture topLeft, VertexPosition3ColorTexture topRight, VertexPosition3ColorTexture bottomLeft, VertexPosition3ColorTexture bottomRight, Texture2D texture)
         {
@@ -21,6 +20,11 @@ namespace PlainCore
         public VertexPosition3ColorTexture BottomLeft { get; }
         public VertexPosition3ColorTexture BottomRight { get; }
         public Texture2D Texture { get; }
+
+        public int CompareTo(SpriteRenderItem other)
+        {
+            return Texture.Id.CompareTo(other.Texture.Id);
+        }
 
         public override bool Equals(object obj)
         {
