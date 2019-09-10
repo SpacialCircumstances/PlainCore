@@ -32,8 +32,7 @@ namespace PlainCore
         public override bool Equals(object obj)
         {
             return obj is Texture2D d &&
-                   Texture.Equals(d.Texture) &&
-                   TextureView.Equals(d.TextureView);
+                   d.Id == Id;
         }
 
         public override int GetHashCode()
