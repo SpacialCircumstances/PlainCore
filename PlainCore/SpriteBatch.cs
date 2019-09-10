@@ -15,7 +15,8 @@ namespace PlainCore
         private readonly ArrayBufferList<SpriteRenderItem> sprites;
         private bool batching;
 
-        public void Draw(Texture2D texture, Vector2 position, Nullable<IntRect> sourceRectangle, RgbaFloat color, float rotation, Vector2 origin, Vector2 scale, float depth)
+        //TODO: Overload for drawing to destination rect
+        public void Draw(Texture2D texture, Vector2 position, IntRect? sourceRectangle, RgbaFloat color, float rotation, Vector2 origin, Vector2 scale, float depth)
         {
             var actualOrigin = origin * scale;
             float w;
@@ -101,6 +102,7 @@ namespace PlainCore
                 throw new InvalidOperationException("Begin() was already called");
             }
 
+            sprites.Clear();
             batching = true;
         }
 
@@ -110,8 +112,18 @@ namespace PlainCore
             {
                 throw new InvalidOperationException("Begin() must be called before calling End()");
             }
-
+            //TODO: Sort sprites
             batching = false;
+        }
+
+        public SpriteRenderItem[] GetSprites()
+        {
+            if (batching)
+            {
+                throw new InvalidOperationException("Cannot draw before calling End()");
+            }
+
+            return sprites.Buffer;
         }
     }
 }
