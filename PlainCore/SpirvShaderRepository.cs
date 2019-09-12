@@ -16,7 +16,7 @@ namespace PlainCore
 
         protected byte[] LoadShaderFile(string name)
         {
-            var filename = Path.Combine(ShaderFolderPath, name);
+            var filename = Path.Combine(ShaderFolderPath, name + ".spirv");
             return File.ReadAllBytes(filename);
         }
 
