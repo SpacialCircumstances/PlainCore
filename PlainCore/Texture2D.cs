@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Veldrid;
+using Veldrid.ImageSharp;
 
 namespace PlainCore
 {
@@ -8,6 +8,18 @@ namespace PlainCore
     {
         private static int textureIdCounter = 0;
 
+        public static Texture2D FromFile(GraphicsDevice device, string filename, bool mipmap = false)
+        {
+            var tex = new ImageSharpTexture(filename, mipmap);
+            var texture = tex.CreateDeviceTexture(device, device.ResourceFactory);
+            var textureView = device.ResourceFactory.CreateTextureView(texture);
+
+            return new Texture2D()
+            {
+                Texture = texture,
+                TextureView = textureView
+            };
+        }
         public static Texture2D FromTextureAndView(Texture texture, TextureView textureView)
         {
             return new Texture2D
