@@ -5,6 +5,6 @@ namespace PlainCore
 {
     public interface IShaderRepository
     {
-        Shader LoadShader(GraphicsBackend backend, ShaderStages shaderType);
+        Shader[] LoadShaders(GraphicsBackend backend);
     }
 }

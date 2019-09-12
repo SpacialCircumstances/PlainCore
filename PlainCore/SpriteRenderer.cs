@@ -16,10 +16,17 @@ namespace PlainCore
 
         private DeviceBuffer indexBuffer;
         private DeviceBuffer vertexBuffer;
+        private DeviceBuffer worldMatrixBuffer;
+        private readonly Framebuffer framebuffer;
+        private readonly Pipeline pipeline;
+        private ResourceSet viewResourceSet;
+        private ResourceSet graphicsResourceSet;
 
-        public SpriteRenderer(GraphicsDevice device)
+        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, Pipeline pipeline)
         {
             this.device = device;
+            this.framebuffer = framebuffer;
+            this.pipeline = pipeline;
         }
 
         public void Initialize()
@@ -32,6 +39,17 @@ namespace PlainCore
 
             var vertexBufferDescription = new BufferDescription(VERTEX_SIZE * MAX_BATCH * 4, BufferUsage.VertexBuffer | BufferUsage.Dynamic);
             vertexBuffer = factory.CreateBuffer(vertexBufferDescription);
+
+            var worldMatrixBufferDescription = new BufferDescription(64, BufferUsage.UniformBuffer);
+            worldMatrixBuffer = factory.CreateBuffer(worldMatrixBufferDescription);
+
+            var viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("worldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+            viewResourceSet = factory.CreateResourceSet(new ResourceSetDescription(viewResourceLayout));
+
+            var graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
+                new ResourceLayoutElementDescription("TextureSampler", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
+            graphicsResourceSet = factory.CreateResourceSet(new ResourceSetDescription(graphicsResourceLayout));
         }
 
         public unsafe void Render(SpriteBatch batch)
@@ -84,7 +102,17 @@ namespace PlainCore
         {
             device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
 
-            //TODO: Draw the stuff
+            commandList.Begin();
+            commandList.SetFramebuffer(framebuffer);
+            commandList.SetFullViewports();
+            commandList.ClearDepthStencil(0f);
+            commandList.SetPipeline(pipeline);
+            commandList.SetGraphicsResourceSet(0, viewResourceSet);
+            commandList.SetGraphicsResourceSet(1, graphicsResourceSet);
+            commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
+            commandList.SetVertexBuffer(0, vertexBuffer);
+            commandList.End();
+            device.SubmitCommands(commandList);
         }
 
         protected void EnsureIndices(int spriteCount)
