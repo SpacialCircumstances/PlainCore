@@ -52,7 +52,7 @@ namespace PlainCore
 
             graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
-                new ResourceLayoutElementDescription("TextureSampler", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
+                new ResourceLayoutElementDescription("TextureSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
             var shaders = loadShaders(device.BackendType);
             var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
@@ -64,8 +64,7 @@ namespace PlainCore
                 PrimitiveTopology.TriangleList,
                 shaderSet,
                 new[] { viewResourceLayout, graphicsResourceLayout },
-                framebuffer.OutputDescription,
-                ResourceBindingModel.Default);
+                framebuffer.OutputDescription);
             pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
