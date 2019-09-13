@@ -126,10 +126,10 @@ namespace PlainCore
 
             device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
 
+            //TODO: Depth buffer
             commandList.Begin();
             commandList.SetFramebuffer(framebuffer);
             commandList.SetFullViewports();
-            commandList.ClearDepthStencil(0f);
             commandList.SetPipeline(pipeline);
             commandList.SetGraphicsResourceSet(0, viewResourceSet);
             commandList.SetGraphicsResourceSet(1, graphicsResourceSet);
