@@ -2,7 +2,7 @@
 {
     public static class Shaders
     {
-        private const string SPRITEBATCH_DEFAULT_VERTEX_SHADER = @"
+        public const string SPRITEBATCH_DEFAULT_VERTEX_SHADER = @"
             #version 450
             layout(location = 0) in vec3 position;
             layout(location = 1) in vec4 color;
@@ -21,7 +21,7 @@
             }
         ";
 
-        private const string SPRITEBATCH_DEFAULT_FRAGMENT_SHADER = @"
+        public const string SPRITEBATCH_DEFAULT_FRAGMENT_SHADER = @"
             #version 450
             layout(location = 0) in vec4 fsColor;
             layout(location = 1) in vec2 texCoords;
