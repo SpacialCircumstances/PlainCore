@@ -117,6 +117,8 @@ namespace PlainCore
 
         protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture)
         {
+            if (texture == null) return;
+
             var vrsd = new ResourceSetDescription(viewResourceLayout, worldMatrixBuffer);
             var viewResourceSet = device.ResourceFactory.CreateResourceSet(vrsd);
 
