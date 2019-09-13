@@ -135,6 +135,7 @@ namespace PlainCore
             commandList.SetGraphicsResourceSet(1, graphicsResourceSet);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
             commandList.SetVertexBuffer(0, vertexBuffer);
+            commandList.DrawIndexed((uint)vertexIndex);
             commandList.End();
             device.SubmitCommands(commandList);
         }
