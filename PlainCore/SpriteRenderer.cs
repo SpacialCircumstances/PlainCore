@@ -48,7 +48,7 @@ namespace PlainCore
             var viewMatrix = Matrix4x4.CreateOrthographicOffCenter(0f, 800f, 600f, 0f, 0f, 10.0f);
             device.UpdateBuffer(worldMatrixBuffer, 0, viewMatrix);
 
-            viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("worldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+            viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("WorldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
 
             graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
