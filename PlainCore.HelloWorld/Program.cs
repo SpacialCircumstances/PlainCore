@@ -19,7 +19,7 @@ namespace PlainCore.HelloWorld
             };
             var window = VeldridStartup.CreateWindow(ref wci);
 
-            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window);
+            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, GraphicsBackend.OpenGL);
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
@@ -34,6 +34,12 @@ namespace PlainCore.HelloWorld
             while (window.Exists)
             {
                 window.PumpEvents();
+
+                spritebatch.Begin();
+                spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
+                spritebatch.End();
+
+                spriteRenderer.Render(spritebatch);
             }
 
             graphicsDevice.Dispose();
