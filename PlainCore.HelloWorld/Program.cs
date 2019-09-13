@@ -40,6 +40,8 @@ namespace PlainCore.HelloWorld
                 spritebatch.End();
 
                 spriteRenderer.Render(spritebatch);
+
+                graphicsDevice.SwapBuffers();
             }
 
             graphicsDevice.Dispose();
