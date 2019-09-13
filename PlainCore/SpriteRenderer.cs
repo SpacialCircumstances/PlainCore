@@ -1,5 +1,6 @@
 ﻿using PlainCore.Vertices;
 using System;
+using System.Numerics;
 using Veldrid;
 
 namespace PlainCore
@@ -18,15 +19,16 @@ namespace PlainCore
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer worldMatrixBuffer;
         private readonly Framebuffer framebuffer;
-        private readonly Pipeline pipeline;
-        private ResourceSet viewResourceSet;
-        private ResourceSet graphicsResourceSet;
+        private Pipeline pipeline;
+        private ResourceLayout viewResourceLayout;
+        private ResourceLayout graphicsResourceLayout;
+        private readonly IShaderRepository shaderRepository;
 
-        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, Pipeline pipeline)
+        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, IShaderRepository shaderRepository)
         {
             this.device = device;
             this.framebuffer = framebuffer;
-            this.pipeline = pipeline;
+            this.shaderRepository = shaderRepository;
         }
 
         public void Initialize()
@@ -43,13 +45,28 @@ namespace PlainCore
             var worldMatrixBufferDescription = new BufferDescription(64, BufferUsage.UniformBuffer);
             worldMatrixBuffer = factory.CreateBuffer(worldMatrixBufferDescription);
 
-            var viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("worldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
-            viewResourceSet = factory.CreateResourceSet(new ResourceSetDescription(viewResourceLayout));
+            var viewMatrix = Matrix4x4.CreateOrthographicOffCenter(0f, 800f, 600f, 0f, 0f, 10.0f);
+            device.UpdateBuffer(worldMatrixBuffer, 0, viewMatrix);
 
-            var graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
+            viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("worldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+
+            graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                 new ResourceLayoutElementDescription("TextureSampler", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
-            graphicsResourceSet = factory.CreateResourceSet(new ResourceSetDescription(graphicsResourceLayout));
+
+            var shaders = shaderRepository.LoadShaders(device.BackendType);
+            var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
+
+            var pipelineDescription = new GraphicsPipelineDescription(
+                BlendStateDescription.SingleOverrideBlend, 
+                DepthStencilStateDescription.DepthOnlyLessEqual,
+                RasterizerStateDescription.CullNone,
+                PrimitiveTopology.TriangleList,
+                shaderSet,
+                new[] { viewResourceLayout, graphicsResourceLayout },
+                framebuffer.OutputDescription,
+                ResourceBindingModel.Default);
+            pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
         public unsafe void Render(SpriteBatch batch)
@@ -100,6 +117,12 @@ namespace PlainCore
 
         protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture)
         {
+            var vrsd = new ResourceSetDescription(viewResourceLayout, worldMatrixBuffer);
+            var viewResourceSet = device.ResourceFactory.CreateResourceSet(vrsd);
+
+            var grsd = new ResourceSetDescription(graphicsResourceLayout, texture.TextureView, device.PointSampler);
+            var graphicsResourceSet = device.ResourceFactory.CreateResourceSet(grsd);
+
             device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
 
             commandList.Begin();
