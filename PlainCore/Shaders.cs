@@ -1,4 +1,8 @@
-﻿namespace PlainCore
+﻿
+using System.Text;
+using Veldrid;
+
+namespace PlainCore
 {
     public static class Shaders
     {
@@ -36,5 +40,9 @@
                 outColor = texColor * fsColor;
             }
         ";
+
+        public static readonly ShaderDescription SpritebatchDefaultVertexShader = new ShaderDescription(ShaderStages.Vertex, Encoding.UTF8.GetBytes(SPRITEBATCH_DEFAULT_VERTEX_SHADER), "main");
+
+        public static readonly ShaderDescription SpritebatchDefaultFragmentShader = new ShaderDescription(ShaderStages.Fragment, Encoding.UTF8.GetBytes(SPRITEBATCH_DEFAULT_FRAGMENT_SHADER), "main");
     }
 }
