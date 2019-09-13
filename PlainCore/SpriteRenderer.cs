@@ -22,13 +22,13 @@ namespace PlainCore
         private Pipeline pipeline;
         private ResourceLayout viewResourceLayout;
         private ResourceLayout graphicsResourceLayout;
-        private readonly IShaderRepository shaderRepository;
+        private readonly Func<GraphicsBackend, Shader[]> loadShaders;
 
-        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, IShaderRepository shaderRepository)
+        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders)
         {
             this.device = device;
             this.framebuffer = framebuffer;
-            this.shaderRepository = shaderRepository;
+            this.loadShaders = loadShaders;
         }
 
         public void Initialize()
@@ -54,7 +54,7 @@ namespace PlainCore
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                 new ResourceLayoutElementDescription("TextureSampler", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
 
-            var shaders = shaderRepository.LoadShaders(device.BackendType);
+            var shaders = loadShaders(device.BackendType);
             var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
 
             var pipelineDescription = new GraphicsPipelineDescription(
