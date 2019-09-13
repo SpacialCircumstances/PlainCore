@@ -25,6 +25,7 @@ namespace PlainCore.HelloWorld
             {
                 return graphicsDevice.ResourceFactory.CreateFromSpirv(Shaders.SpritebatchDefaultVertexShader, Shaders.SpritebatchDefaultFragmentShader);
             });
+            spriteRenderer.Initialize();
 
             var spritebatch = new SpriteBatch();
 
