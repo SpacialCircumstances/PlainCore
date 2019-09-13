@@ -12,7 +12,7 @@ namespace PlainCore
 
         private readonly GraphicsDevice device;
         private CommandList commandList;
-        private ushort[] indices = new ushort[64 * 6];
+        private ushort[] indices = new ushort[0];
         private VertexPosition3ColorTexture[] vertices = new VertexPosition3ColorTexture[64 * 4];
 
         private DeviceBuffer indexBuffer;
@@ -135,7 +135,7 @@ namespace PlainCore
             commandList.SetGraphicsResourceSet(1, graphicsResourceSet);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
             commandList.SetVertexBuffer(0, vertexBuffer);
-            commandList.DrawIndexed((uint)vertexIndex);
+            commandList.DrawIndexed((uint)(vertexIndex * 1.5));
             commandList.End();
             device.SubmitCommands(commandList);
         }
