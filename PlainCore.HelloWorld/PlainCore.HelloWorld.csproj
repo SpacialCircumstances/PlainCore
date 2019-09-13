@@ -9,4 +9,10 @@
     <ProjectReference Include="..\PlainCore\PlainCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Planet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
