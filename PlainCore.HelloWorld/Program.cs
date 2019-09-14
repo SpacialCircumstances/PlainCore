@@ -19,7 +19,7 @@ namespace PlainCore.HelloWorld
             };
             var window = VeldridStartup.CreateWindow(ref wci);
 
-            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, GraphicsBackend.OpenGL);
+            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, GraphicsBackend.Vulkan);
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
