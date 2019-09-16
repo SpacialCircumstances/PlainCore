@@ -45,9 +45,6 @@ namespace PlainCore
             var worldMatrixBufferDescription = new BufferDescription(64, BufferUsage.UniformBuffer);
             worldMatrixBuffer = factory.CreateBuffer(worldMatrixBufferDescription);
 
-            var viewMatrix = Matrix4x4.CreateScale(new Vector3(1f / 800f, 1f / 600f, 1f));
-            device.UpdateBuffer(worldMatrixBuffer, 0, viewMatrix);
-
             viewResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(new ResourceLayoutElementDescription("WorldView", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
 
             graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
@@ -73,6 +70,8 @@ namespace PlainCore
             var sprites = batch.GetSprites();
             int spriteCount = sprites.Length;
             int batchIndex = 0;
+
+            device.UpdateBuffer(worldMatrixBuffer, 0, view.WorldMatrix);
 
             EnsureIndices(Math.Min(spriteCount, MAX_BATCH));
 
