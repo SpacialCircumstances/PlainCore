@@ -68,7 +68,7 @@ namespace PlainCore
             pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
-        public unsafe void Render(SpriteBatch batch)
+        public unsafe void Render(SpriteBatch batch, View view)
         {
             var sprites = batch.GetSprites();
             int spriteCount = sprites.Length;
@@ -94,7 +94,7 @@ namespace PlainCore
                         var shouldFlush = !ReferenceEquals(item.Texture, tex);
                         if (shouldFlush)
                         {
-                            FlushVertexArray(vertexArrayFixedPtr, index, tex);
+                            FlushVertexArray(vertexArrayFixedPtr, index, tex, view);
 
                             tex = item.Texture;
                             index = 0;
@@ -107,14 +107,14 @@ namespace PlainCore
                         *(vertexArrayPtr + 3) = item.BottomRight;
                     }
 
-                    FlushVertexArray(vertexArrayFixedPtr, index, tex);
+                    FlushVertexArray(vertexArrayFixedPtr, index, tex, view);
                 }
 
                 spriteCount -= batchSize;
             }
         }
 
-        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture)
+        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view)
         {
             if (texture == null) return;
 
@@ -129,7 +129,7 @@ namespace PlainCore
             //TODO: Depth buffer
             commandList.Begin();
             commandList.SetFramebuffer(framebuffer);
-            commandList.SetFullViewports();
+            commandList.SetViewport(0, view.ScreenView);
             commandList.SetPipeline(pipeline);
             commandList.SetGraphicsResourceSet(0, viewResourceSet);
             commandList.SetGraphicsResourceSet(1, graphicsResourceSet);

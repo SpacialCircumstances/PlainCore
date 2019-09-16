@@ -31,6 +31,8 @@ namespace PlainCore.HelloWorld
 
             var texture = Texture2D.FromFile(graphicsDevice, "Planet.png");
 
+            var view = new View(new Viewport(0f, 0f, 800f, 600f, 0f, 1.0f), new FloatRect(0f, 0f, 800f, 600f));
+
             while (window.Exists)
             {
                 window.PumpEvents();
@@ -39,7 +41,7 @@ namespace PlainCore.HelloWorld
                 spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
                 spritebatch.End();
 
-                spriteRenderer.Render(spritebatch);
+                spriteRenderer.Render(spritebatch, view);
 
                 graphicsDevice.SwapBuffers();
             }
