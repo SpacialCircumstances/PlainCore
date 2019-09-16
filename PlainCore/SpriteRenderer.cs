@@ -138,6 +138,9 @@ namespace PlainCore
             commandList.DrawIndexed((uint)(vertexIndex * 1.5));
             commandList.End();
             device.SubmitCommands(commandList);
+
+            viewResourceSet.Dispose();
+            graphicsResourceSet.Dispose();
         }
 
         protected void EnsureIndices(int spriteCount)
