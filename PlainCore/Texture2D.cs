@@ -8,11 +8,11 @@ namespace PlainCore
     {
         private static int textureIdCounter = 0;
 
-        public static Texture2D FromFile(GraphicsDevice device, string filename, bool mipmap = false)
+        public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = false)
         {
             var tex = new ImageSharpTexture(filename, mipmap);
-            var texture = tex.CreateDeviceTexture(device, device.ResourceFactory);
-            var textureView = device.ResourceFactory.CreateTextureView(texture);
+            var texture = tex.CreateDeviceTexture(device, factory);
+            var textureView = factory.CreateTextureView(texture);
 
             return new Texture2D()
             {

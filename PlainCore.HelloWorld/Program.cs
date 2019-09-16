@@ -21,7 +21,7 @@ namespace PlainCore.HelloWorld
 
             var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, GraphicsBackend.Vulkan);
 
-            var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.SwapchainFramebuffer, (gb) =>
+            var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.ResourceFactory, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
                 return graphicsDevice.ResourceFactory.CreateFromSpirv(Shaders.SpritebatchDefaultVertexShader, Shaders.SpritebatchDefaultFragmentShader);
             });
@@ -29,7 +29,7 @@ namespace PlainCore.HelloWorld
 
             var spritebatch = new SpriteBatch();
 
-            var texture = Texture2D.FromFile(graphicsDevice, "Planet.png");
+            var texture = Texture2D.FromFile(graphicsDevice, graphicsDevice.ResourceFactory, "Planet.png");
 
             var view = new View(new Viewport(0f, 0f, 800f, 600f, 0f, 1.0f), new FloatRect(0f, 0f, 800f, 600f), 0f);
 

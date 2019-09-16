@@ -11,6 +11,7 @@ namespace PlainCore
         private static readonly uint VERTEX_SIZE = default(VertexPosition3ColorTexture).Size;
 
         private readonly GraphicsDevice device;
+        private readonly ResourceFactory factory;
         private CommandList commandList;
         private ushort[] indices = new ushort[0];
         private VertexPosition3ColorTexture[] vertices = new VertexPosition3ColorTexture[64 * 4];
@@ -24,16 +25,16 @@ namespace PlainCore
         private ResourceLayout graphicsResourceLayout;
         private readonly Func<GraphicsBackend, Shader[]> loadShaders;
 
-        public SpriteRenderer(GraphicsDevice device, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders)
+        public SpriteRenderer(GraphicsDevice device, ResourceFactory factory, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders)
         {
             this.device = device;
+            this.factory = factory;
             this.framebuffer = framebuffer;
             this.loadShaders = loadShaders;
         }
 
         public void Initialize()
         {
-            var factory = device.ResourceFactory;
             commandList = factory.CreateCommandList();
 
             var indexBufferDescription = new BufferDescription(sizeof(ushort) * MAX_BATCH * 6, BufferUsage.IndexBuffer | BufferUsage.Dynamic);
@@ -118,10 +119,10 @@ namespace PlainCore
             if (texture == null) return;
 
             var vrsd = new ResourceSetDescription(viewResourceLayout, worldMatrixBuffer);
-            var viewResourceSet = device.ResourceFactory.CreateResourceSet(vrsd);
+            var viewResourceSet = factory.CreateResourceSet(vrsd);
 
             var grsd = new ResourceSetDescription(graphicsResourceLayout, texture.TextureView, device.PointSampler);
-            var graphicsResourceSet = device.ResourceFactory.CreateResourceSet(grsd);
+            var graphicsResourceSet = factory.CreateResourceSet(grsd);
 
             device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
 
