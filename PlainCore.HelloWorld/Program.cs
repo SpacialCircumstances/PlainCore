@@ -19,7 +19,14 @@ namespace PlainCore.HelloWorld
             };
             var window = VeldridStartup.CreateWindow(ref wci);
 
-            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, GraphicsBackend.Vulkan);
+            var deviceOptions = new GraphicsDeviceOptions(
+                debug: false,
+                swapchainDepthFormat: PixelFormat.R16_UNorm,
+                syncToVerticalBlank: true,
+                resourceBindingModel: ResourceBindingModel.Improved,
+                preferDepthRangeZeroToOne: true,
+                preferStandardClipSpaceYDirection: false);
+            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, deviceOptions, GraphicsBackend.OpenGL);
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.ResourceFactory, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
