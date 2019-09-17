@@ -26,7 +26,7 @@ namespace PlainCore.HelloWorld
                 resourceBindingModel: ResourceBindingModel.Improved,
                 preferDepthRangeZeroToOne: true,
                 preferStandardClipSpaceYDirection: false);
-            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, deviceOptions, GraphicsBackend.OpenGL);
+            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, deviceOptions, GraphicsBackend.Vulkan);
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.ResourceFactory, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
