@@ -11,7 +11,7 @@ namespace PlainCore
             WorldRotation = worldRotation;
             WorldView = worldView;
             var rot = Matrix4x4.CreateRotationZ(WorldRotation);
-            var proj = Matrix4x4.CreateOrthographic(WorldView.Width, WorldView.Height, 0f, 1f);
+            var proj = Matrix4x4.CreateScale(2f / WorldView.Width, 2f / WorldView.Height, -1f);
             var translate = Matrix4x4.CreateTranslation(WorldView.Left - (WorldView.Width / 2), WorldView.Top - (WorldView.Height / 2), 0f);
             WorldMatrix = translate * proj * rot;
         }
