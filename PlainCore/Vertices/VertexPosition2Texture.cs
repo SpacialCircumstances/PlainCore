@@ -5,10 +5,11 @@ using Veldrid;
 namespace PlainCore.Vertices
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPosition2Texture: IVertex
+    public struct VertexPosition2Texture : IVertex
     {
+        //See https://github.com/mellinoe/veldrid/issues/121 for the usage of VertexElementSemantic.TextureCoordinates
         public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
-                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
+                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate),
                 new VertexElementDescription("TextureCoordinates", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
             );
 

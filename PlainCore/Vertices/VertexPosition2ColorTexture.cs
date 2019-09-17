@@ -5,13 +5,14 @@ using Veldrid;
 namespace PlainCore.Vertices
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct VertexPosition2ColorTexture: IVertex
+    public struct VertexPosition2ColorTexture : IVertex
     {
+        //See https://github.com/mellinoe/veldrid/issues/121 for the usage of VertexElementSemantic.TextureCoordinates
         public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
-        new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.Position),
-        new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.Color),
-        new VertexElementDescription("TextureCoordinates", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
-    );
+                new VertexElementDescription("Position", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate),
+                new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.TextureCoordinate),
+                new VertexElementDescription("TextureCoordinates", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
+            );
 
         public VertexPosition2ColorTexture(Vector2 position, RgbaFloat color, Vector2 textureCoordinates)
         {
