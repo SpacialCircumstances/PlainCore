@@ -38,7 +38,7 @@ namespace PlainCore.HelloWorld
 
             var texture = Texture2D.FromFile(graphicsDevice, graphicsDevice.ResourceFactory, "Planet.png");
 
-            var view = new View(new Viewport(0f, 0f, 800f, 600f, 0f, 1.0f), new FloatRect(0f, 0f, 800f, 600f), 0f);
+            var view = new View(graphicsDevice, new Viewport(0f, 0f, 800f, 600f, 0f, 1.0f), new FloatRect(0f, 0f, 800f, 600f), 0f);
 
             while (window.Exists)
             {
