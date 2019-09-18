@@ -28,7 +28,7 @@ namespace PlainCore.HelloWorld
                 preferStandardClipSpaceYDirection: false);
             var graphicsDevice = VeldridStartup.CreateGraphicsDevice(sdlWindow, deviceOptions, GraphicsBackend.Vulkan);
 
-            var window = new Window(graphicsDevice, graphicsDevice.ResourceFactory, sdlWindow);
+            var window = new Window(graphicsDevice, graphicsDevice.ResourceFactory, sdlWindow, _ => { });
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.ResourceFactory, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
