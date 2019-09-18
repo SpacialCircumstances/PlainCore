@@ -9,11 +9,18 @@ namespace PlainCore
         private WindowCreateInfo wci = new WindowCreateInfo(100, 100, 800, 600, WindowState.Normal, "PlainCore Window");
         private GraphicsDeviceOptions gdo = new GraphicsDeviceOptions();
         private GraphicsBackend? preferredBackend = null;
+        private Func<ResourceFactory, ResourceFactory> resourceFactoryFactory = (r) => r;
         private Action<RgbaFloat> clearFunction = null;
 
         public WindowBuilder()
         {
 
+        }
+
+        public WindowBuilder WithResourceFactoryFactory(Func<ResourceFactory, ResourceFactory> createResourceFactory)
+        {
+            resourceFactoryFactory = createResourceFactory ?? throw new ArgumentNullException(nameof(createResourceFactory));
+            return this;
         }
 
         public WindowBuilder UseAutomaticBackend()
@@ -74,7 +81,7 @@ namespace PlainCore
 
         public WindowBuilder WithTitle(string title)
         {
-            wci.WindowTitle = title;
+            wci.WindowTitle = title ?? throw new ArgumentNullException(nameof(title));
             return this;
         }
 
@@ -91,7 +98,8 @@ namespace PlainCore
                 device = VeldridStartup.CreateGraphicsDevice(win, gdo);
             }
 
-            return new Window(device, device.ResourceFactory, win, clearFunction);
+            var factory = resourceFactoryFactory(device.ResourceFactory);
+            return new Window(device, factory, win, clearFunction);
         }
     }
 }
