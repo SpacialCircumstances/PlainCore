@@ -22,5 +22,15 @@ namespace PlainCore
         public Sdl2Window WindowHandle { get; }
         public Framebuffer Framebuffer => Device.SwapchainFramebuffer;
         public bool IsOpen => WindowHandle.Exists;
+
+        public InputSnapshot HandleInput()
+        {
+            return WindowHandle.PumpEvents();
+        }
+
+        public void Display()
+        {
+            Device.SwapBuffers();
+        }
     }
 }
