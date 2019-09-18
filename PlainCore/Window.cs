@@ -33,6 +33,7 @@ namespace PlainCore
 
         public void Display()
         {
+            Device.WaitForIdle();
             Device.SwapBuffers();
         }
 
