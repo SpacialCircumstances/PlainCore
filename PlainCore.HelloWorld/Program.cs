@@ -17,7 +17,7 @@ namespace PlainCore.HelloWorld
                 WindowHeight = 600,
                 WindowTitle = "Hello World"
             };
-            var window = VeldridStartup.CreateWindow(ref wci);
+            var sdlWindow = VeldridStartup.CreateWindow(ref wci);
 
             var deviceOptions = new GraphicsDeviceOptions(
                 debug: false,
@@ -26,7 +26,9 @@ namespace PlainCore.HelloWorld
                 resourceBindingModel: ResourceBindingModel.Improved,
                 preferDepthRangeZeroToOne: true,
                 preferStandardClipSpaceYDirection: false);
-            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, deviceOptions, GraphicsBackend.Vulkan);
+            var graphicsDevice = VeldridStartup.CreateGraphicsDevice(sdlWindow, deviceOptions, GraphicsBackend.Vulkan);
+
+            var window = new Window(graphicsDevice, graphicsDevice.ResourceFactory, sdlWindow);
 
             var spriteRenderer = new SpriteRenderer(graphicsDevice, graphicsDevice.ResourceFactory, graphicsDevice.SwapchainFramebuffer, (gb) =>
             {
@@ -38,17 +40,15 @@ namespace PlainCore.HelloWorld
 
             var texture = Texture2D.FromFile(graphicsDevice, graphicsDevice.ResourceFactory, "Planet.png");
 
-            var view = new View(graphicsDevice, new Viewport(0f, 0f, 800f, 600f, 0f, 1.0f), new FloatRect(0f, 0f, 800f, 600f), 0f);
-
-            while (window.Exists)
+            while (window.IsOpen)
             {
-                window.PumpEvents();
+                window.WindowHandle.PumpEvents();
 
                 spritebatch.Begin();
                 spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
                 spritebatch.End();
 
-                spriteRenderer.Render(spritebatch, view);
+                spriteRenderer.Render(spritebatch, window.MainView);
 
                 graphicsDevice.SwapBuffers();
             }
