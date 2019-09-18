@@ -38,7 +38,7 @@ namespace PlainCore
 
         public void Clear(RgbaFloat color)
         {
-            clearCallback(color);
+            clearCallback?.Invoke(color);
         }
     }
 }
