@@ -10,16 +10,22 @@ namespace PlainCore
         private GraphicsDeviceOptions gdo = new GraphicsDeviceOptions();
         private GraphicsBackend? preferredBackend = null;
         private Func<ResourceFactory, ResourceFactory> resourceFactoryFactory = (r) => r;
-        private Action<RgbaFloat> clearFunction = null;
+        private Func<GraphicsDevice, ResourceFactory, Action<RgbaFloat>> clearFunctionFactory = (_, _2) => null;
 
         public WindowBuilder()
         {
 
         }
 
-        public WindowBuilder WithResourceFactoryFactory(Func<ResourceFactory, ResourceFactory> createResourceFactory)
+        public WindowBuilder SetResourceFactoryFactory(Func<ResourceFactory, ResourceFactory> createResourceFactory)
         {
             resourceFactoryFactory = createResourceFactory ?? throw new ArgumentNullException(nameof(createResourceFactory));
+            return this;
+        }
+
+        public WindowBuilder SetClearFunctionFactory(Func<GraphicsDevice, ResourceFactory, Action<RgbaFloat>> clearFunctionFactory)
+        {
+            this.clearFunctionFactory = clearFunctionFactory;
             return this;
         }
 
@@ -99,6 +105,7 @@ namespace PlainCore
             }
 
             var factory = resourceFactoryFactory(device.ResourceFactory);
+            var clearFunction = clearFunctionFactory(device, factory);
             return new Window(device, factory, win, clearFunction);
         }
     }
