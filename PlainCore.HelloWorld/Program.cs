@@ -9,16 +9,8 @@ namespace PlainCore.HelloWorld
     {
         static void Main(string[] args)
         {
-            var wci = new WindowCreateInfo()
-            {
-                X = 100,
-                Y = 100,
-                WindowWidth = 800,
-                WindowHeight = 600,
-                WindowTitle = "Hello World"
-            };
-
             var window = new WindowBuilder()
+                            .WithTitle("Hello World")
                             .Build();
 
             var graphicsDevice = window.Device;

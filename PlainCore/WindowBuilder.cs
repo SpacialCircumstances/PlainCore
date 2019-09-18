@@ -16,6 +16,68 @@ namespace PlainCore
 
         }
 
+        public WindowBuilder UseAutomaticBackend()
+        {
+            preferredBackend = null;
+            return this;
+        }
+
+        public WindowBuilder UseBackend(GraphicsBackend backend)
+        {
+            preferredBackend = backend;
+            return this;
+        }
+
+        public WindowBuilder WithWindowState(WindowState windowState)
+        {
+            wci.WindowInitialState = windowState;
+            return this;
+        }
+
+        public WindowBuilder WithPositionY(int y)
+        {
+            wci.Y = y;
+            return this;
+        }
+
+        public WindowBuilder WithPositionX(int x)
+        {
+            wci.X = x;
+            return this;
+        }
+
+        public WindowBuilder WithPosition(int x, int y)
+        {
+            wci.X = x;
+            wci.Y = y;
+            return this;
+        }
+
+        public WindowBuilder WithSize(int width, int height)
+        {
+            wci.WindowWidth = width;
+            wci.WindowHeight = height;
+            return this;
+        }
+
+        public WindowBuilder WithHeight(int height)
+        {
+            wci.WindowHeight = height;
+            return this;
+        }
+
+        public WindowBuilder WithWidth(int width)
+        {
+            wci.WindowWidth = width;
+            return this;
+        }
+
+        public WindowBuilder WithTitle(string title)
+        {
+            wci.WindowTitle = title;
+            return this;
+        }
+
         public Window Build()
         {
             var win = VeldridStartup.CreateWindow(ref wci);
