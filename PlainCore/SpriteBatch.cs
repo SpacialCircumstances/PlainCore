@@ -16,6 +16,26 @@ namespace PlainCore
         private bool batching;
 
         //TODO: Overload for drawing to destination rect
+        public void Draw(Texture2D texture, FloatRect destination, IntRect? sourceRectangle, RgbaFloat color, float rotation, Vector2 origin, float depth)
+        {
+            float width;
+            float height;
+            if (sourceRectangle.HasValue)
+            {
+                var sourceRect = sourceRectangle.Value;
+                width = sourceRect.Width;
+                height = sourceRect.Height;
+            }
+            else
+            {
+                width = texture.Width;
+                height = texture.Height;
+            }
+
+            var scale = new Vector2(destination.Width / width, destination.Height / height);
+            Draw(texture, destination.Position, sourceRectangle, color, rotation, origin, scale, depth);
+        }
+
         public void Draw(Texture2D texture, Vector2 position, IntRect? sourceRectangle, RgbaFloat color, float rotation, Vector2 origin, Vector2 scale, float depth)
         {
             var actualOrigin = origin * scale;
