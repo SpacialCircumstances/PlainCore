@@ -11,6 +11,7 @@ namespace PlainCore.HelloWorld
         {
             var window = new WindowBuilder()
                             .WithTitle("Hello World")
+                            .WithDefaultClearFunction()
                             .Build();
 
             var graphicsDevice = window.Device;
@@ -30,7 +31,7 @@ namespace PlainCore.HelloWorld
             {
                 window.WindowHandle.PumpEvents();
 
-                window.Clear(RgbaFloat.Black);
+                window.Clear(RgbaFloat.Red);
 
                 spritebatch.Begin();
                 spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);

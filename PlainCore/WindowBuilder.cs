@@ -17,6 +17,31 @@ namespace PlainCore
 
         }
 
+        public WindowBuilder WithDefaultClearFunction(bool clearDepthIfAvailable = true, float depthClear = float.MinValue)
+        {
+            clearFunctionFactory = (device, factory) =>
+            {
+                var commandList = factory.CreateCommandList();
+                var framebuffer = device.SwapchainFramebuffer;
+                return (color) =>
+                {
+                    commandList.Begin();
+                    commandList.SetFramebuffer(framebuffer);
+                    if (framebuffer.DepthTarget != null && clearDepthIfAvailable)
+                    {
+                        commandList.ClearDepthStencil(depthClear);
+                    }
+                    foreach (var att in framebuffer.ColorTargets)
+                    {
+                        commandList.ClearColorTarget(att.ArrayLayer, color);
+                    }
+                    commandList.End();
+                    device.SubmitCommands(commandList);
+                };
+            };
+            return this;
+        }
+
         public WindowBuilder SetResourceFactoryFactory(Func<ResourceFactory, ResourceFactory> createResourceFactory)
         {
             resourceFactoryFactory = createResourceFactory ?? throw new ArgumentNullException(nameof(createResourceFactory));
