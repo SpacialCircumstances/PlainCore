@@ -9,9 +9,9 @@ namespace PlainCore.Vertices
     {
         //See https://github.com/mellinoe/veldrid/issues/121 for the usage of VertexElementSemantic.TextureCoordinates
         public static readonly VertexLayoutDescription VertexLayout = new VertexLayoutDescription(
-                new VertexElementDescription("Position", VertexElementFormat.Float3, VertexElementSemantic.TextureCoordinate),
-                new VertexElementDescription("Color", VertexElementFormat.Float4, VertexElementSemantic.TextureCoordinate),
-                new VertexElementDescription("TextureCoordinates", VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
+                new VertexElementDescription(Vertices.POSITION_ATTRIBUTE_NAME, VertexElementFormat.Float3, VertexElementSemantic.TextureCoordinate),
+                new VertexElementDescription(Vertices.COLOR_ATTRIBUTE_NAME, VertexElementFormat.Float4, VertexElementSemantic.TextureCoordinate),
+                new VertexElementDescription(Vertices.TEXCOORDS_ATTRIBUTE_NAME, VertexElementFormat.Float2, VertexElementSemantic.TextureCoordinate)
             );
 
         public VertexPosition3ColorTexture(Vector3 position, RgbaFloat color, Vector2 textureCoordinates)
