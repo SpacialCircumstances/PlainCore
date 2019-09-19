@@ -15,7 +15,16 @@ namespace PlainCore
         private readonly ArrayBufferList<SpriteRenderItem> sprites;
         private bool batching;
 
-        //TODO: Overload for drawing to destination rect
+        public void Draw(Texture2D texture, Vector2 position, RgbaFloat color, Vector2 scale, float rotation = 0f, float depth = 0f)
+        {
+            Draw(texture, position, null, color, rotation, Vector2.Zero, scale, depth);
+        }
+
+        public void Draw(Texture2D texture, FloatRect destination, RgbaFloat color, float rotation = 0f, float depth = 0f)
+        {
+            Draw(texture, destination, null, color, rotation, Vector2.Zero, depth);
+        }
+
         public void Draw(Texture2D texture, FloatRect destination, IntRect? sourceRectangle, RgbaFloat color, float rotation, Vector2 origin, float depth)
         {
             float width;
