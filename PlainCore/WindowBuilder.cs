@@ -17,6 +17,30 @@ namespace PlainCore
 
         }
 
+        public WindowBuilder SetWindowOptions(WindowCreateInfo wci)
+        {
+            this.wci = wci;
+            return this;
+        }
+
+        public WindowBuilder SetGraphicsDeviceOptions(GraphicsDeviceOptions gdo)
+        {
+            this.gdo = gdo;
+            return this;
+        }
+
+        public WindowBuilder SetVerticalSync(bool verticalSync = true)
+        {
+            gdo.SyncToVerticalBlank = verticalSync;
+            return this;
+        }
+
+        public WindowBuilder SetDebug(bool debug = true)
+        {
+            gdo.Debug = debug;
+            return this;
+        }
+
         public WindowBuilder WithDefaultClearFunction(bool clearDepthIfAvailable = true, float depthClear = float.MinValue)
         {
             clearFunctionFactory = (device, factory) =>
