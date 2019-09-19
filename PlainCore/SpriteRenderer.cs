@@ -25,6 +25,14 @@ namespace PlainCore
         private ResourceLayout graphicsResourceLayout;
         private readonly Func<GraphicsBackend, Shader[]> loadShaders;
 
+        public SpriteRenderer(Window window, Func<GraphicsBackend, Shader[]> loadShaders): this(window, window.Framebuffer, loadShaders)
+        {
+        }
+
+        public SpriteRenderer(Window window, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders): this(window.Device, window.Factory, framebuffer, loadShaders)
+        {
+        }
+
         public SpriteRenderer(GraphicsDevice device, ResourceFactory factory, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders)
         {
             this.device = device;
