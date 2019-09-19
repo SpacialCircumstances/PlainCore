@@ -147,14 +147,14 @@ namespace PlainCore
             batching = false;
         }
 
-        public SpriteRenderItem[] GetSprites()
+        public ArrayBufferList<SpriteRenderItem> GetSprites()
         {
             if (batching)
             {
                 throw new InvalidOperationException("Cannot draw before calling End()");
             }
 
-            return sprites.Buffer;
+            return sprites;
         }
     }
 }

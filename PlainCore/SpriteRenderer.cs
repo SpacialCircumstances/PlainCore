@@ -69,7 +69,7 @@ namespace PlainCore
         public unsafe void Render(SpriteBatch batch, View view)
         {
             var sprites = batch.GetSprites();
-            int spriteCount = sprites.Length;
+            int spriteCount = sprites.Count;
             int batchIndex = 0;
 
             device.UpdateBuffer(worldMatrixBuffer, 0, view.WorldMatrix);
