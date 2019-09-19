@@ -56,7 +56,7 @@ namespace PlainCore
             var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
 
             var pipelineDescription = new GraphicsPipelineDescription(
-                BlendStateDescription.SingleOverrideBlend, 
+                BlendStateDescription.SingleAlphaBlend, 
                 DepthStencilStateDescription.DepthOnlyLessEqual,
                 RasterizerStateDescription.CullNone,
                 PrimitiveTopology.TriangleList,
