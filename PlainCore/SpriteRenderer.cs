@@ -153,7 +153,7 @@ namespace PlainCore
                 for (int i = 0; i < spriteCount; i++)
                 {
                     int idx = i * 6;
-                    int vertex = i * 6;
+                    int vertex = i * 4;
                     indices[idx] = (ushort)vertex;
                     indices[idx + 1] = (ushort)(vertex + 1);
                     indices[idx + 2] = (ushort)(vertex + 2);
