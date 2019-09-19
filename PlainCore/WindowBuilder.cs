@@ -41,7 +41,7 @@ namespace PlainCore
             return this;
         }
 
-        public WindowBuilder WithDefaultClearFunction(bool clearDepthIfAvailable = true, float depthClear = float.MinValue)
+        public WindowBuilder UseDefaultClearFunction(bool clearDepthIfAvailable = true, float depthClear = float.MinValue)
         {
             clearFunctionFactory = (device, factory) =>
             {
@@ -84,57 +84,57 @@ namespace PlainCore
             return this;
         }
 
-        public WindowBuilder UseBackend(GraphicsBackend backend)
+        public WindowBuilder SetBackend(GraphicsBackend backend)
         {
             preferredBackend = backend;
             return this;
         }
 
-        public WindowBuilder WithWindowState(WindowState windowState)
+        public WindowBuilder SetInitialWindowState(WindowState windowState)
         {
             wci.WindowInitialState = windowState;
             return this;
         }
 
-        public WindowBuilder WithPositionY(int y)
+        public WindowBuilder SetPositionY(int y)
         {
             wci.Y = y;
             return this;
         }
 
-        public WindowBuilder WithPositionX(int x)
+        public WindowBuilder SetPositionX(int x)
         {
             wci.X = x;
             return this;
         }
 
-        public WindowBuilder WithPosition(int x, int y)
+        public WindowBuilder SetPosition(int x, int y)
         {
             wci.X = x;
             wci.Y = y;
             return this;
         }
 
-        public WindowBuilder WithSize(int width, int height)
+        public WindowBuilder SetSize(int width, int height)
         {
             wci.WindowWidth = width;
             wci.WindowHeight = height;
             return this;
         }
 
-        public WindowBuilder WithHeight(int height)
+        public WindowBuilder SetHeight(int height)
         {
             wci.WindowHeight = height;
             return this;
         }
 
-        public WindowBuilder WithWidth(int width)
+        public WindowBuilder SetWidth(int width)
         {
             wci.WindowWidth = width;
             return this;
         }
 
-        public WindowBuilder WithTitle(string title)
+        public WindowBuilder SetTitle(string title)
         {
             wci.WindowTitle = title ?? throw new ArgumentNullException(nameof(title));
             return this;

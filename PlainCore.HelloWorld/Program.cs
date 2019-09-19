@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using Veldrid;
 using Veldrid.SPIRV;
-using Veldrid.StartupUtilities;
 
 namespace PlainCore.HelloWorld
 {
@@ -10,8 +9,8 @@ namespace PlainCore.HelloWorld
         static void Main(string[] args)
         {
             var window = new WindowBuilder()
-                            .WithTitle("Hello World")
-                            .WithDefaultClearFunction()
+                            .SetTitle("Hello World")
+                            .UseDefaultClearFunction()
                             .Build();
 
             var graphicsDevice = window.Device;
