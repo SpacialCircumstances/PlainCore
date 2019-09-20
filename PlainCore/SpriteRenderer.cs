@@ -41,7 +41,7 @@ namespace PlainCore
             this.loadShaders = loadShaders;
         }
 
-        public void Initialize()
+        public void Initialize(BlendStateDescription? blendStateDescription = null)
         {
             commandList = factory.CreateCommandList();
 
@@ -64,7 +64,7 @@ namespace PlainCore
             var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
 
             var pipelineDescription = new GraphicsPipelineDescription(
-                BlendStateDescription.SingleAlphaBlend, 
+                blendStateDescription ?? BlendStateDescription.SingleAlphaBlend, 
                 DepthStencilStateDescription.DepthOnlyGreaterEqual,
                 RasterizerStateDescription.CullNone,
                 PrimitiveTopology.TriangleList,
