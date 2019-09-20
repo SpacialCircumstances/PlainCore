@@ -17,7 +17,7 @@ namespace PlainCore
 
         }
 
-        public WindowBuilder UseDepthBuffer(PixelFormat pixelFormat = PixelFormat.R16_UNorm)
+        public WindowBuilder UseDepthBuffer(PixelFormat pixelFormat = PixelFormat.R32_Float)
         {
             gdo.SwapchainDepthFormat = pixelFormat;
             return this;
