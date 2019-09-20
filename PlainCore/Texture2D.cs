@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System.Threading;
 using Veldrid;
 using Veldrid.ImageSharp;
 
@@ -8,14 +10,8 @@ namespace PlainCore
     {
         private static int textureIdCounter = 0;
 
-        public static Texture2D FromFile(Window window, string filename, bool mipmap = true)
+        private static Texture2D CreateTexture(GraphicsDevice device, ResourceFactory factory, ImageSharpTexture tex)
         {
-            return FromFile(window.Device, window.Factory, filename, mipmap);
-        }
-
-        public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = true)
-        {
-            var tex = new ImageSharpTexture(filename, mipmap);
             var texture = tex.CreateDeviceTexture(device, factory);
             var textureView = factory.CreateTextureView(texture);
 
@@ -24,6 +20,23 @@ namespace PlainCore
                 Texture = texture,
                 TextureView = textureView
             };
+        }
+
+        public static Texture2D FromImage(GraphicsDevice device, ResourceFactory factory, Image<Rgba32> image, bool mipmap = true)
+        {
+            var tex = new ImageSharpTexture(image, mipmap);
+            return CreateTexture(device, factory, tex);
+        }
+
+        public static Texture2D FromFile(Window window, string filename, bool mipmap = true)
+        {
+            return FromFile(window.Device, window.Factory, filename, mipmap);
+        }
+
+        public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = true)
+        {
+            var tex = new ImageSharpTexture(filename, mipmap);
+            return CreateTexture(device, factory, tex);
         }
         public static Texture2D FromTextureAndView(Texture texture, TextureView textureView)
         {
