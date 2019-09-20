@@ -74,7 +74,7 @@ namespace PlainCore
             pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
-        public unsafe void Render(SpriteBatch batch, View view)
+        public unsafe void Render(SpriteBatch batch, View view, Sampler sampler = null)
         {
             var sprites = batch.GetSprites();
             int spriteCount = sprites.Count;
@@ -102,7 +102,7 @@ namespace PlainCore
                         var shouldFlush = !ReferenceEquals(item.Texture, tex);
                         if (shouldFlush)
                         {
-                            FlushVertexArray(vertexArrayFixedPtr, index, tex, view);
+                            FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler);
 
                             tex = item.Texture;
                             index = 0;
@@ -115,21 +115,21 @@ namespace PlainCore
                         *(vertexArrayPtr + 3) = item.BottomRight;
                     }
 
-                    FlushVertexArray(vertexArrayFixedPtr, index, tex, view);
+                    FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler);
                 }
 
                 spriteCount -= batchSize;
             }
         }
 
-        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view)
+        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view, Sampler sampler)
         {
             if (texture == null) return;
 
             var vrsd = new ResourceSetDescription(viewResourceLayout, worldMatrixBuffer);
             var viewResourceSet = factory.CreateResourceSet(vrsd);
 
-            var grsd = new ResourceSetDescription(graphicsResourceLayout, texture.TextureView, device.PointSampler);
+            var grsd = new ResourceSetDescription(graphicsResourceLayout, texture.TextureView, sampler ?? device.PointSampler);
             var graphicsResourceSet = factory.CreateResourceSet(grsd);
 
             device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
