@@ -13,8 +13,9 @@ namespace PlainCore
             //If GraphicsDevice does not use Vulkan clip space, invert the y direction. This will happen on Direct3D
             //and, when the device is created with "preferStandardClipSpaceYDirection: true", on Vulkan.
             float projYFactor = device.IsClipSpaceYInverted ? 1f : -1f;
+            float projZFactor = 1f;
             var rot = Matrix4x4.CreateRotationZ(WorldRotation);
-            var proj = Matrix4x4.CreateScale(2f / WorldView.Width, (2f / WorldView.Height) * projYFactor, -1f);
+            var proj = Matrix4x4.CreateScale(2f / WorldView.Width, (2f / WorldView.Height) * projYFactor, projZFactor);
             var translate = Matrix4x4.CreateTranslation(WorldView.Left - (WorldView.Width / 2), WorldView.Top - (WorldView.Height / 2), 0f);
             WorldMatrix = translate * proj * rot;
         }
