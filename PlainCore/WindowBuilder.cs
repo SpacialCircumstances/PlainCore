@@ -17,6 +17,18 @@ namespace PlainCore
 
         }
 
+        public WindowBuilder UseDepthBuffer(PixelFormat pixelFormat = PixelFormat.R16_UNorm)
+        {
+            gdo.SwapchainDepthFormat = pixelFormat;
+            return this;
+        }
+
+        public WindowBuilder NoDepthBuffer()
+        {
+            gdo.SwapchainDepthFormat = null;
+            return this;
+        }
+
         public WindowBuilder SetWindowOptions(WindowCreateInfo wci)
         {
             this.wci = wci;
