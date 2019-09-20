@@ -10,6 +10,7 @@ namespace PlainCore.HelloWorld
         {
             var window = new WindowBuilder()
                             .SetTitle("Hello World")
+                            .UseDepthBuffer()
                             .UseDefaultClearFunction()
                             .Build();
 
@@ -30,9 +31,9 @@ namespace PlainCore.HelloWorld
                 window.Clear(RgbaFloat.Red);
 
                 spritebatch.Begin();
-                spritebatch.Draw(texture, new Vector2(100, 100), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
-                spritebatch.Draw(texture, new Vector2(50, 50), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
-                spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.0f);
+                spritebatch.Draw(texture, new Vector2(100, 100), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.1f);
+                spritebatch.Draw(texture, new Vector2(50, 50), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.3f);
+                spritebatch.Draw(texture, new Vector2(0, 0), null, RgbaFloat.White, 0f, Vector2.Zero, Vector2.One, 0.2f);
                 spritebatch.End();
 
                 spriteRenderer.Render(spritebatch, window.MainView);
