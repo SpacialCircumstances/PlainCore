@@ -114,6 +114,20 @@ namespace PlainCore
             sprites.Add(sprite);
         }
 
+        public void DrawText(string text, Font font, RgbaFloat color, float x, float y, float scale, float depth)
+        {
+            var texture = font.Texture;
+
+            float currentX = x;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char character = text[i];
+                var glyph = font.Description.GetGlyph(character);
+                Draw(texture, new Vector2(currentX, y), null, color, 0f, Vector2.Zero, new Vector2(glyph.GlyphSize.W * scale, glyph.GlyphSize.H * scale), depth);
+                currentX += glyph.GlyphSize.W * scale;
+            }
+        }
+
         public void Draw(SpriteRenderItem sprite)
         {
             if (!batching)
