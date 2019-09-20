@@ -65,7 +65,7 @@ namespace PlainCore
 
             var pipelineDescription = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend, 
-                DepthStencilStateDescription.DepthOnlyLessEqual,
+                DepthStencilStateDescription.DepthOnlyGreaterEqual,
                 RasterizerStateDescription.CullNone,
                 PrimitiveTopology.TriangleList,
                 shaderSet,
