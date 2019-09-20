@@ -5,7 +5,7 @@ using Veldrid;
 
 namespace PlainCore
 {
-    public class SpriteRenderer
+    public class SpriteRenderer : IDisposable
     {
         private const int MAX_BATCH = 1024;
         private static readonly uint VERTEX_SIZE = default(VertexPosition3ColorTexture).Size;
@@ -25,11 +25,11 @@ namespace PlainCore
         private ResourceLayout graphicsResourceLayout;
         private readonly Func<GraphicsBackend, Shader[]> loadShaders;
 
-        public SpriteRenderer(Window window, Func<GraphicsBackend, Shader[]> loadShaders): this(window, window.Framebuffer, loadShaders)
+        public SpriteRenderer(Window window, Func<GraphicsBackend, Shader[]> loadShaders) : this(window, window.Framebuffer, loadShaders)
         {
         }
 
-        public SpriteRenderer(Window window, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders): this(window.Device, window.Factory, framebuffer, loadShaders)
+        public SpriteRenderer(Window window, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders) : this(window.Device, window.Factory, framebuffer, loadShaders)
         {
         }
 
@@ -64,7 +64,7 @@ namespace PlainCore
             var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
 
             var pipelineDescription = new GraphicsPipelineDescription(
-                blendStateDescription ?? BlendStateDescription.SingleAlphaBlend, 
+                blendStateDescription ?? BlendStateDescription.SingleAlphaBlend,
                 DepthStencilStateDescription.DepthOnlyGreaterEqual,
                 RasterizerStateDescription.CullNone,
                 PrimitiveTopology.TriangleList,
@@ -177,6 +177,17 @@ namespace PlainCore
             {
                 vertices = new VertexPosition3ColorTexture[spriteCount * 4];
             }
+        }
+
+        public void Dispose()
+        {
+            commandList.Dispose();
+            indexBuffer.Dispose();
+            vertexBuffer.Dispose();
+            worldMatrixBuffer.Dispose();
+            pipeline.Dispose();
+            viewResourceLayout.Dispose();
+            graphicsResourceLayout.Dispose();
         }
     }
 }
