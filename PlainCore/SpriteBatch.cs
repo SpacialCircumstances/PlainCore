@@ -117,6 +117,7 @@ namespace PlainCore
         public void DrawText(string text, Font font, RgbaFloat color, float x, float y, float scale, float depth)
         {
             var texture = font.Texture;
+            var bottom = y + font.Description.FontSize;
 
             float currentX = x;
             for (int i = 0; i < text.Length; i++)
@@ -124,7 +125,7 @@ namespace PlainCore
                 char character = text[i];
                 var glyph = font.Description.GetGlyph(character);
                 var sourceRect = new IntRect(glyph.BitmapPosition.X, glyph.BitmapPosition.Y, glyph.GlyphSize.W, glyph.GlyphSize.H);
-                var destRect = new FloatRect(currentX, y, sourceRect.Width * scale, sourceRect.Height * scale);
+                var destRect = new FloatRect(currentX, bottom - sourceRect.Height, sourceRect.Width * scale, sourceRect.Height * scale);
                 Draw(texture, destRect, sourceRect, color, 0f, Vector2.Zero, depth);
                 currentX += sourceRect.Width * scale;
             }
