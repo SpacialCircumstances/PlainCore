@@ -1,19 +1,25 @@
-﻿namespace PlainCore
+﻿using System.Numerics;
+
+namespace PlainCore
 {
     /// <summary>
     /// Contains data for rendering a glyph.
     /// </summary>
     public struct GlyphLayout
     {
-        public GlyphLayout(char character, (int x, int y) bitmapPosition, (int w, int h) size)
+        public GlyphLayout(char character, IntRect bitmapRegion, Vector2 size, Vector2 bearing, float advance)
         {
             Character = character;
-            BitmapPosition = bitmapPosition;
-            GlyphSize = size;
+            BitmapRegion = bitmapRegion;
+            Size = size;
+            Bearing = bearing;
+            Advance = advance;
         }
 
-        public char Character { get; set; }
-        public (int X, int Y) BitmapPosition { get; set; }
-        public (int W, int H) GlyphSize { get; set; }
+        public char Character { get; }
+        public IntRect BitmapRegion { get; }
+        public Vector2 Size { get; }
+        public Vector2 Bearing { get; }
+        public float Advance { get; }
     }
 }

@@ -5,6 +5,7 @@ using SixLabors.Fonts;
 using SixLabors.Primitives;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace PlainCore
 {
@@ -56,7 +57,8 @@ namespace PlainCore
                     maxY = h;
                 }
 
-                var layout = new GlyphLayout(c, (currentX, currentY), (w, h));
+                var region = new IntRect(currentX, currentY, w, h);
+                var layout = new GlyphLayout(c, region, Vector2.Zero, Vector2.Zero, 0f);
                 currentX += w + HORIZONTAL_OFFSET;
 
                 glyphs.Add(c, layout);
@@ -70,7 +72,7 @@ namespace PlainCore
             {
                 foreach (var glyph in glyphs)
                 {
-                    var pos = new Point(glyph.Value.BitmapPosition.X, glyph.Value.BitmapPosition.Y);
+                    var pos = new Point(glyph.Value.BitmapRegion.X, glyph.Value.BitmapRegion.Y);
                     ctx.DrawText($"{glyph.Value.Character}", font, Rgba32.White, pos);
                 }
             });
