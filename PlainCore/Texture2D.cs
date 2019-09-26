@@ -1,6 +1,7 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Threading;
+using System.IO;
 using Veldrid;
 using Veldrid.ImageSharp;
 
@@ -22,20 +23,36 @@ namespace PlainCore
             };
         }
 
-        public static Texture2D FromImage(GraphicsDevice device, ResourceFactory factory, Image<Rgba32> image, bool mipmap = true)
+        public static Texture2D FromStream(Window window, Stream stream, bool mipmap = true, bool srgb = false)
         {
-            var tex = new ImageSharpTexture(image, mipmap);
+            return FromStream(window.Device, window.Factory, stream, mipmap, srgb);
+        }
+
+        public static Texture2D FromStream(GraphicsDevice device, ResourceFactory factory, Stream stream, bool mipmap = true, bool srgb = false)
+        {
+            var tex = new ImageSharpTexture(stream, mipmap, srgb);
+            return CreateTexture(device, factory, tex);
+        }
+        
+        public static Texture2D FromImage(Window window, Image<Rgba32> image, bool mipmap = true, bool srgb = false)
+        {
+            return FromImage(window.Device, window.Factory, image, mipmap, srgb);
+        }
+
+        public static Texture2D FromImage(GraphicsDevice device, ResourceFactory factory, Image<Rgba32> image, bool mipmap = true, bool srgb = false)
+        {
+            var tex = new ImageSharpTexture(image, mipmap, srgb);
             return CreateTexture(device, factory, tex);
         }
 
-        public static Texture2D FromFile(Window window, string filename, bool mipmap = true)
+        public static Texture2D FromFile(Window window, string filename, bool mipmap = true, bool srgb = false)
         {
-            return FromFile(window.Device, window.Factory, filename, mipmap);
+            return FromFile(window.Device, window.Factory, filename, mipmap, srgb);
         }
 
-        public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = true)
+        public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = true, bool srgb = false)
         {
-            var tex = new ImageSharpTexture(filename, mipmap);
+            var tex = new ImageSharpTexture(filename, mipmap, srgb);
             return CreateTexture(device, factory, tex);
         }
         public static Texture2D FromTextureAndView(Texture texture, TextureView textureView)
