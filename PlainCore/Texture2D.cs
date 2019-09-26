@@ -16,11 +16,7 @@ namespace PlainCore
             var texture = tex.CreateDeviceTexture(device, factory);
             var textureView = factory.CreateTextureView(texture);
 
-            return new Texture2D()
-            {
-                Texture = texture,
-                TextureView = textureView
-            };
+            return new Texture2D(texture, textureView);
         }
 
         public static Texture2D FromStream(Window window, Stream stream, bool mipmap = true, bool srgb = false)
@@ -57,24 +53,22 @@ namespace PlainCore
         }
         public static Texture2D FromTextureAndView(Texture texture, TextureView textureView)
         {
-            return new Texture2D
-            {
-                Texture = texture,
-                TextureView = textureView
-            };
+            return new Texture2D(texture, textureView);
         }
-        private Texture2D()
+        private Texture2D(Texture texture, TextureView textureView)
         {
-            this.Id = textureIdCounter;
+            Id = textureIdCounter;
+            Texture = texture;
+            TextureView = textureView;
             Interlocked.Increment(ref textureIdCounter);
         }
 
-        public Texture Texture { get; private set; }
-        public TextureView TextureView { get; private set; }
+        public Texture Texture { get; }
+        public TextureView TextureView { get; }
 
         public int Height => (int)Texture.Height;
         public int Width => (int)Texture.Width;
-        public int Id { get; private set; }
+        public int Id { get; }
 
         public override bool Equals(object obj)
         {
