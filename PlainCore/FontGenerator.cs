@@ -56,7 +56,17 @@ namespace PlainCore
                     maxY = h;
                 }
 
-                var region = new IntRect(currentX, currentY, w, h);
+                IntRect? region;
+                if (w == 0 || h == 0)
+                {
+                    //Glyph is invisible, so it has no region on the bitmap
+                    region = null;
+                } 
+                else
+                {
+                    region = new IntRect(currentX, currentY, w, h);
+                }
+
                 var layout = new GlyphLayout(i, region, new Vector2(glyph.Width, glyph.Height), glyph.HorizontalMetrics.Bearing, glyph.HorizontalMetrics.Advance);
                 currentX += w + HORIZONTAL_OFFSET;
 
@@ -74,10 +84,15 @@ namespace PlainCore
                 foreach (var glyphEntry in glyphs)
                 {
                     var (layout, glyph) = glyphEntry.Value;
-                    var pos = new Point(layout.BitmapRegion.X, layout.BitmapRegion.Y);
-                    var img = RenderGlyph(glyph);
+                    if (layout.BitmapRegion.HasValue)
+                    {
+                        //Glyph is renderable
+                        var region = layout.BitmapRegion.Value;
+                        var pos = new Point(region.X, region.Y);
+                        var img = RenderGlyph(glyph);
+                        ctx.DrawImage(img, 1f, pos);
+                    }
                     glyphTable[glyphEntry.Key] = layout;
-                    ctx.DrawImage(img, 1f, pos);
                 }
             });
 

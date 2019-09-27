@@ -124,9 +124,10 @@ namespace PlainCore
             {
                 char character = text[i];
                 var glyph = font.Description.GetGlyph(character);
-                var destRect = new FloatRect(currentX, bottom - glyph.BitmapRegion.Height, glyph.BitmapRegion.Width * scale, glyph.BitmapRegion.Height * scale);
+                var region = glyph.BitmapRegion.GetValueOrDefault();
+                var destRect = new FloatRect(currentX, bottom - region.Height, region.Width * scale, region.Height * scale);
                 Draw(texture, destRect, glyph.BitmapRegion, color, 0f, Vector2.Zero, depth);
-                currentX += glyph.BitmapRegion.Width * scale;
+                currentX += region.Width * scale;
             }
         }
 

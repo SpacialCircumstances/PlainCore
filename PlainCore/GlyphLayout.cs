@@ -7,7 +7,7 @@ namespace PlainCore
     /// </summary>
     public struct GlyphLayout
     {
-        public GlyphLayout(char character, IntRect bitmapRegion, Vector2 size, Vector2 bearing, float advance)
+        public GlyphLayout(char character, IntRect? bitmapRegion, Vector2 size, Vector2 bearing, float advance)
         {
             Character = character;
             BitmapRegion = bitmapRegion;
@@ -17,7 +17,7 @@ namespace PlainCore
         }
 
         public char Character { get; }
-        public IntRect BitmapRegion { get; }
+        public IntRect? BitmapRegion { get; }
         public Vector2 Size { get; }
         public Vector2 Bearing { get; }
         public float Advance { get; }
