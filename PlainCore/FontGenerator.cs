@@ -100,11 +100,6 @@ namespace PlainCore
                     Pitch = width
                 };
 
-                //Clear the memory
-                var stuff = (byte*)surface.Bits;
-                for (int i = 0; i < surface.Width * surface.Height; i++)
-                    *stuff++ = 0;
-
                 glyph.RenderTo(surface);
 
                 int len = width * height;
