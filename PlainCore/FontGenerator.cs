@@ -1,10 +1,11 @@
-﻿using SixLabors.ImageSharp;
+﻿using SharpFont;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Fonts;
 using SixLabors.Primitives;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Numerics;
 
 namespace PlainCore
@@ -25,23 +26,21 @@ namespace PlainCore
         /// <param name="lowerChar">The lowest character to render</param>
         /// <param name="upperChar">The hightest character</param>
         /// <returns>A description for the font</returns>
-        public static FontDescription GenerateFont(string fontFileName, uint fontSize, int lowerChar = 32, int upperChar = 127)
+        public static FontDescription GenerateFont(string fontFileName, float fontSize, char lowerChar = (char)32, char upperChar = (char)127)
         {
-            var fontCollection = new FontCollection();
-            fontCollection.Install(fontFileName);
-            var fontFamily = fontCollection.Families.First();
-            var font = fontFamily.CreateFont(fontSize);
+            var font = new FontFace(File.OpenRead(fontFileName));
 
-            var glyphs = new Dictionary<char, GlyphLayout>();
+            var glyphs = new Dictionary<char, (GlyphLayout, Glyph)>();
 
             var currentX = 0;
             var currentY = 0;
             var maxY = 0;
 
-            for (int i = lowerChar; i < upperChar; i++)
+            for (char i = lowerChar; i < upperChar; i++)
             {
-                char c = (char)i;
-                var (w, h) = GetGlyphSize(font, c, (int)fontSize);
+                var glyph = font.GetGlyph(new CodePoint(i), fontSize);
+                int w = glyph.RenderWidth;
+                int h = glyph.RenderHeight;
 
                 //Glyph would be to big
                 if (currentX + w + HORIZONTAL_OFFSET > MAX_BITMAP_WIDTH)
@@ -58,32 +57,70 @@ namespace PlainCore
                 }
 
                 var region = new IntRect(currentX, currentY, w, h);
-                var layout = new GlyphLayout(c, region, Vector2.Zero, Vector2.Zero, 0f);
+                var layout = new GlyphLayout(i, region, new Vector2(glyph.Width, glyph.Height), glyph.HorizontalMetrics.Bearing, glyph.HorizontalMetrics.Advance);
                 currentX += w + HORIZONTAL_OFFSET;
 
-                glyphs.Add(c, layout);
+                glyphs.Add(i, (layout, glyph));
             }
 
             var finalHeight = currentY + maxY;
 
             var bitmap = new Image<Rgba32>(MAX_BITMAP_WIDTH, finalHeight);
 
+            var glyphTable = new Dictionary<char, GlyphLayout>();
+
             bitmap.Mutate(ctx =>
             {
-                foreach (var glyph in glyphs)
+                foreach (var glyphEntry in glyphs)
                 {
-                    var pos = new Point(glyph.Value.BitmapRegion.X, glyph.Value.BitmapRegion.Y);
-                    ctx.DrawText($"{glyph.Value.Character}", font, Rgba32.White, pos);
+                    var (layout, glyph) = glyphEntry.Value;
+                    var pos = new Point(layout.BitmapRegion.X, layout.BitmapRegion.Y);
+                    var img = RenderGlyph(glyph);
+                    glyphTable[glyphEntry.Key] = layout;
+                    ctx.DrawImage(img, 1f, pos);
                 }
             });
 
-            return new FontDescription(bitmap, fontSize, glyphs);
+            return new FontDescription(bitmap, fontSize, glyphTable);
         }
 
-        private static (int, int) GetGlyphSize(SixLabors.Fonts.Font face, char character, int size)
+        private static unsafe Image<Rgba32> RenderGlyph(Glyph glyph)
         {
-            var glyphSize = TextMeasurer.Measure($"{character}", new RendererOptions(face));
-            return ((int)glyphSize.Width, (int)glyphSize.Height);
+            int width = glyph.RenderWidth;
+            int height = glyph.RenderHeight;
+            var data = new byte[width * height];
+
+            fixed (byte* dataPtr = data) {
+
+                var surface = new Surface
+                {
+                    Bits = (IntPtr)dataPtr,
+                    Width = width,
+                    Height = height,
+                    Pitch = width
+                };
+
+                //Clear the memory
+                var stuff = (byte*)surface.Bits;
+                for (int i = 0; i < surface.Width * surface.Height; i++)
+                    *stuff++ = 0;
+
+                glyph.RenderTo(surface);
+
+                int len = width * height;
+                var pixelData = new byte[len * 4];
+                int index = 0;
+                for (int i = 0; i < len; i++)
+                {
+                    byte c = *(dataPtr + i);
+                    pixelData[index++] = 255;
+                    pixelData[index++] = 255;
+                    pixelData[index++] = 255;
+                    pixelData[index++] = c;
+                }
+
+                return Image.LoadPixelData<Rgba32>(pixelData, width, height);
+            }
         }
     }
 }

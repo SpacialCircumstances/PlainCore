@@ -21,7 +21,7 @@ namespace PlainCore
             return fontDescription;
         }
 
-        public FontDescription(Image<Rgba32> image, uint fontSize, Dictionary<char, GlyphLayout> glyphs)
+        public FontDescription(Image<Rgba32> image, float fontSize, Dictionary<char, GlyphLayout> glyphs)
         {
             if (image == null) throw new ArgumentNullException(nameof(image));
 
@@ -43,7 +43,7 @@ namespace PlainCore
         [JsonIgnore]
         public Image<Rgba32> Bitmap { get; private set; }
 
-        public uint FontSize { get; private set; }
+        public float FontSize { get; private set; }
 
         protected Dictionary<char, GlyphLayout> glyphs;
 
