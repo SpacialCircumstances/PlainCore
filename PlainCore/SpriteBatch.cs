@@ -123,8 +123,8 @@ namespace PlainCore
             for (int i = 0; i < text.Length; i++)
             {
                 char character = text[i];
-                var glyph = font.Description.GetGlyph(character);
-                var bottom = y + font.Description.FontSize;
+                var glyph = font.Description.Glyphs[character];
+                var bottom = y + font.Description.Metadata.Size;
                 if (glyph.BitmapRegion.HasValue)
                 {
                     var region = glyph.BitmapRegion.Value;

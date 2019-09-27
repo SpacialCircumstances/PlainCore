@@ -96,7 +96,15 @@ namespace PlainCore
                 }
             });
 
-            return new FontDescription(bitmap, fontSize, glyphTable);
+            var metadata = new FontMetadata(
+                font.Family,
+                font.Subfamily,
+                fontSize,
+                FontMetadata.StyleFrom(font.Style),
+                (int)font.Weight,
+                FontMetadata.StretchFrom(font.Stretch));
+
+            return new FontDescription(metadata, bitmap, new Glyphs(glyphTable));
         }
 
         private static unsafe Image<Rgba32> RenderGlyph(Glyph glyph)

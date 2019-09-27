@@ -12,67 +12,23 @@ namespace PlainCore
     /// </summary>
     public class FontDescription
     {
-
-        public static FontDescription FromDescriptionFile(string filename)
+        public FontDescription(FontMetadata metadata, Image<Rgba32> bitmap, Glyphs glyphs)
         {
-            string content = File.ReadAllText(filename);
-            var fontDescription = JsonConvert.DeserializeObject<FontDescription>(content);
-            fontDescription.LoadImage();
-            return fontDescription;
+            Metadata = metadata;
+            Bitmap = bitmap;
+            Glyphs = glyphs;
         }
 
-        public FontDescription(Image<Rgba32> image, float fontSize, Dictionary<char, GlyphLayout> glyphs)
-        {
-            if (image == null) throw new ArgumentNullException(nameof(image));
+        public FontMetadata Metadata { get; }
 
-            Bitmap = image;
-            FontSize = fontSize;
-            this.glyphs = glyphs;
-        }
-
-        public FontDescription(string imageFile, uint fontSize, Dictionary<char, GlyphLayout> glyphs)
-        {
-            ImageFile = imageFile;
-            LoadImage();
-            FontSize = fontSize;
-            this.glyphs = glyphs;
-        }
-
-        public string ImageFile { get; private set; }
-
+        //TODO: Create serializer for storing this
         [JsonIgnore]
-        public Image<Rgba32> Bitmap { get; private set; }
+        public Image<Rgba32> Bitmap { get; }
+        public Glyphs Glyphs { get; }
 
-        public float FontSize { get; private set; }
-
-        protected Dictionary<char, GlyphLayout> glyphs;
-
-        /// <summary>
-        /// Get the glyph data for rendering the character.
-        /// </summary>
-        /// <param name="c">The character</param>
-        /// <returns>Glyph data</returns>
-        public GlyphLayout GetGlyph(char c)
+        public override string ToString()
         {
-            return glyphs[c];
-        }
-
-        /// <summary>
-        /// Save the font description and the bitmap to a file.
-        /// </summary>
-        /// <param name="fileName">Filename for the serialized font description</param>
-        /// <param name="imageFileName">Filename for the bitmap</param>
-        public void Save(string fileName, string imageFileName)
-        {
-            ImageFile = imageFileName;
-            Bitmap.Save(imageFileName);
-            string json = JsonConvert.SerializeObject(this);
-            File.WriteAllText(fileName, json);
-        }
-
-        protected void LoadImage()
-        {
-            Bitmap = Image.Load(ImageFile);
+            return $"{Metadata.FamilyName} {Metadata.SubfamilyName} ({Metadata.Size}) ({Metadata.Style})";
         }
     }
 }
