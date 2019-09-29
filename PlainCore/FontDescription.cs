@@ -1,9 +1,5 @@
-﻿using Newtonsoft.Json;
-using SixLabors.ImageSharp;
+﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace PlainCore
 {
@@ -20,9 +16,6 @@ namespace PlainCore
         }
 
         public FontMetadata Metadata { get; }
-
-        //TODO: Create serializer for storing this
-        [JsonIgnore]
         public Image<Rgba32> Bitmap { get; }
         public Glyphs Glyphs { get; }
 
