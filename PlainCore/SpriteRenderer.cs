@@ -1,11 +1,10 @@
 ﻿using PlainCore.Vertices;
 using System;
-using System.Numerics;
 using Veldrid;
 
 namespace PlainCore
 {
-    public class SpriteRenderer : IDisposable
+    public sealed class SpriteRenderer : IDisposable
     {
         private const int MAX_BATCH = 1024;
         private static readonly uint VERTEX_SIZE = default(VertexPosition3ColorTexture).Size;
@@ -13,7 +12,7 @@ namespace PlainCore
         private readonly GraphicsDevice device;
         private readonly ResourceFactory factory;
         private CommandList commandList;
-        private ushort[] indices = new ushort[0];
+        private ushort[] indices = Array.Empty<ushort>();
         private VertexPosition3ColorTexture[] vertices = new VertexPosition3ColorTexture[64 * 4];
 
         private DeviceBuffer indexBuffer;
@@ -122,7 +121,7 @@ namespace PlainCore
             }
         }
 
-        protected unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view, Sampler sampler)
+        private unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view, Sampler sampler)
         {
             if (texture == null) return;
 
@@ -151,7 +150,7 @@ namespace PlainCore
             graphicsResourceSet.Dispose();
         }
 
-        protected void EnsureIndices(int spriteCount)
+        private void EnsureIndices(int spriteCount)
         {
             int indiceCount = spriteCount * 6;
 

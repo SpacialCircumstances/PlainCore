@@ -61,7 +61,7 @@ namespace PlainCore
                 {
                     //Glyph is invisible, so it has no region on the bitmap
                     region = null;
-                } 
+                }
                 else
                 {
                     region = new IntRect(currentX, currentY, w, h);
@@ -113,7 +113,8 @@ namespace PlainCore
             int height = glyph.RenderHeight;
             var data = new byte[width * height];
 
-            fixed (byte* dataPtr = data) {
+            fixed (byte* dataPtr = data)
+            {
 
                 var surface = new Surface
                 {

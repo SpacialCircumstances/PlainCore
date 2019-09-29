@@ -1,6 +1,5 @@
 ﻿using System;
 using Veldrid;
-using Veldrid.StartupUtilities;
 using Veldrid.Sdl2;
 
 namespace PlainCore
@@ -18,7 +17,7 @@ namespace PlainCore
             this.clearCallback = clearCallback;
         }
 
-        private Action<RgbaFloat> clearCallback;
+        private readonly Action<RgbaFloat> clearCallback;
         public View MainView { get; }
         public GraphicsDevice Device { get; }
         public ResourceFactory Factory { get; }

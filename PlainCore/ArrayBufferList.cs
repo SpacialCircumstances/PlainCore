@@ -116,7 +116,7 @@ namespace PlainCore
             return GetEnumerator();
         }
 
-        protected class Enumerator : IEnumerator<T>
+        protected sealed class Enumerator : IEnumerator<T>
         {
             public Enumerator(int max, IEnumerator arrayEnumerator)
             {
@@ -138,7 +138,8 @@ namespace PlainCore
                 {
                     index++;
                     return arrayEnumerator.MoveNext();
-                } else
+                }
+                else
                 {
                     return false;
                 }
@@ -151,7 +152,7 @@ namespace PlainCore
 
             public void Dispose()
             {
-                
+
             }
         }
     }

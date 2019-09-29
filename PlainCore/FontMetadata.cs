@@ -1,5 +1,4 @@
-﻿using SharpFont;
-using System;
+﻿using System;
 
 namespace PlainCore
 {
@@ -25,7 +24,7 @@ namespace PlainCore
         internal static FontStyle StyleFrom(SharpFont.FontStyle style)
         {
             FontStyle result;
-            switch(style)
+            switch (style)
             {
                 case SharpFont.FontStyle.Bold:
                     result = FontStyle.Bold;
@@ -48,7 +47,7 @@ namespace PlainCore
         internal static FontStretch StretchFrom(SharpFont.FontStretch stretch)
         {
             FontStretch result;
-            switch(stretch)
+            switch (stretch)
             {
                 case SharpFont.FontStretch.UltraCondensed:
                     result = FontStretch.UltraCondensed;

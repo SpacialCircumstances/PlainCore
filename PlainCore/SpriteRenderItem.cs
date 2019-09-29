@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PlainCore.Vertices;
+using System;
 using System.Collections.Generic;
-using PlainCore.Vertices;
 
 namespace PlainCore
 {
-    public struct SpriteRenderItem: IComparable<SpriteRenderItem>
+    public struct SpriteRenderItem : IComparable<SpriteRenderItem>
     {
         public SpriteRenderItem(VertexPosition3ColorTexture topLeft, VertexPosition3ColorTexture topRight, VertexPosition3ColorTexture bottomLeft, VertexPosition3ColorTexture bottomRight, Texture2D texture)
         {
@@ -45,6 +45,36 @@ namespace PlainCore
             hashCode = hashCode * -1521134295 + EqualityComparer<VertexPosition3ColorTexture>.Default.GetHashCode(BottomRight);
             hashCode = hashCode * -1521134295 + EqualityComparer<Texture2D>.Default.GetHashCode(Texture);
             return hashCode;
+        }
+
+        public static bool operator ==(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(SpriteRenderItem left, SpriteRenderItem right)
+        {
+            return left.CompareTo(right) >= 0;
         }
     }
 }

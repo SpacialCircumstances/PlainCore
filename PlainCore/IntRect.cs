@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlainCore
+﻿namespace PlainCore
 {
     public struct IntRect
     {
@@ -45,6 +41,16 @@ namespace PlainCore
             hashCode = hashCode * -1521134295 + Width.GetHashCode();
             hashCode = hashCode * -1521134295 + Height.GetHashCode();
             return hashCode;
+        }
+
+        public static bool operator ==(IntRect left, IntRect right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IntRect left, IntRect right)
+        {
+            return !(left == right);
         }
     }
 }

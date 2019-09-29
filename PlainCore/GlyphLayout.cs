@@ -21,5 +21,25 @@ namespace PlainCore
         public Vector2 Size { get; }
         public Vector2 Bearing { get; }
         public float Advance { get; }
+
+        public override bool Equals(object obj)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override int GetHashCode()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static bool operator ==(GlyphLayout left, GlyphLayout right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(GlyphLayout left, GlyphLayout right)
+        {
+            return !(left == right);
+        }
     }
 }

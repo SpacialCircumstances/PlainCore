@@ -37,5 +37,15 @@ namespace PlainCore.Vertices
             hashCode = hashCode * -1521134295 + TextureCoordinates.GetHashCode();
             return hashCode;
         }
+
+        public static bool operator ==(VertexPosition2Texture left, VertexPosition2Texture right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(VertexPosition2Texture left, VertexPosition2Texture right)
+        {
+            return !(left == right);
+        }
     }
 }

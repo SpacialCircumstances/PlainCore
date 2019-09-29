@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace PlainCore
 {
@@ -44,6 +41,16 @@ namespace PlainCore
             hashCode = hashCode * -1521134295 + Position.GetHashCode();
             hashCode = hashCode * -1521134295 + Size.GetHashCode();
             return hashCode;
+        }
+
+        public static bool operator ==(FloatRect left, FloatRect right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(FloatRect left, FloatRect right)
+        {
+            return !(left == right);
         }
     }
 }

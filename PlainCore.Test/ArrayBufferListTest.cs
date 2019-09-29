@@ -31,7 +31,7 @@ namespace PlainCore.Test
             var list = new ArrayBufferList<string>(4);
             Assert.Equal(4, list.Capacity);
             Assert.Equal(4, list.Buffer.Length);
-            
+
             for (int i = 0; i < 12; i++)
             {
                 list.Add($"test{i}");
