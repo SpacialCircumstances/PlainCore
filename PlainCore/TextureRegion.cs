@@ -2,13 +2,13 @@
 {
     public class TextureRegion
     {
-        public TextureRegion(FloatRect region, Texture2D texture)
+        public TextureRegion(IntRect region, Texture2D texture)
         {
             Region = region;
             Texture = texture;
         }
 
-        public FloatRect Region { get; }
+        public IntRect Region { get; }
         public Texture2D Texture { get; }
 
         public override bool Equals(object obj)
