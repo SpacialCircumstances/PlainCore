@@ -15,6 +15,16 @@ namespace PlainCore
         private readonly ArrayBufferList<SpriteRenderItem> sprites;
         private bool batching;
 
+        public void Draw(TextureRegion textureRegion, FloatRect destination, RgbaFloat color, Vector2 origin, float rotation = 0f, float depth = 0f)
+        {
+            Draw(textureRegion.Texture, destination, textureRegion.Region, color, rotation, origin, depth);
+        }
+
+        public void Draw(TextureRegion textureRegion, Vector2 position, RgbaFloat color, Vector2 origin, Vector2 scale, float rotation = 0f, float depth = 0f)
+        {
+            Draw(textureRegion.Texture, position, textureRegion.Region, color, rotation, origin, scale, depth);
+        }
+
         public void Draw(Texture2D texture, Vector2 position, RgbaFloat color, Vector2 scale, float rotation = 0f, float depth = 0f)
         {
             Draw(texture, position, null, color, rotation, Vector2.Zero, scale, depth);
