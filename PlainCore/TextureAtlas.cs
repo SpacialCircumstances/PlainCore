@@ -27,7 +27,7 @@ namespace PlainCore
             return new TextureAtlas(textureRegions);
         }
 
-        protected TextureAtlas(Dictionary<string, TextureRegion> atlas)
+        public TextureAtlas(Dictionary<string, TextureRegion> atlas)
         {
             this.atlas = atlas;
         }
