@@ -33,6 +33,11 @@ namespace PlainCore.Content
 
         public string RootDirectory { get; }
 
+        public void RegisterAssetLoader(IAssetLoader loader)
+        {
+            RegisterAssetLoader(loader.GetType().Name, loader);
+        }
+
         public void RegisterAssetLoader(string name, IAssetLoader loader)
         {
             assetLoaders.Add(name, loader);
