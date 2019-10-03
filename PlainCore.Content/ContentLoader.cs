@@ -61,7 +61,7 @@ namespace PlainCore.Content
         {
             var assetElement = contentManifest.GetProperty(name);
             var assetLoaderName = assetElement.GetProperty(ASSET_LOADER_PROPERTY_NAME).GetString();
-            var assetLoader = GetAssetLoader(assetLoaderName);
+            var assetLoader = GetAssetLoaderByName(assetLoaderName);
             Type assetType = typeof(T);
             if (assetLoader.IsSupported(assetType))
             {
@@ -73,7 +73,12 @@ namespace PlainCore.Content
             }
         }
 
-        protected IAssetLoader GetAssetLoader(string name)
+        public IAssetLoader GetAssetLoaderForType(Type type)
+        {
+            return assetLoaders.First(loader => loader.Value.IsSupported(type)).Value;
+        }
+
+        public IAssetLoader GetAssetLoaderByName(string name)
         {
             if (assetLoaders.TryGetValue(name, out var loader))
             {
