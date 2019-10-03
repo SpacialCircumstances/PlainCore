@@ -23,7 +23,7 @@ namespace PlainCore.Content
                 throw new ArgumentException(nameof(rootDirectory), "Root directory must exist");
             }
 
-            this.contentManifest = contentManifest;
+            this.contentManifest = contentManifest.Clone();
             RootDirectory = dir;
         }
 
@@ -45,7 +45,6 @@ namespace PlainCore.Content
 
         protected object LoadAsset(string name)
         {
-            //TODO
             return null;
         }
     }
