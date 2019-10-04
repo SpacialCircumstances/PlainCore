@@ -19,9 +19,9 @@ namespace PlainCore
             return new Texture2D(texture, textureView);
         }
 
-        public static Texture2D FromStream(Window window, Stream stream, bool mipmap = true, bool srgb = false)
+        public static Texture2D FromStream(IGraphicsContext context, Stream stream, bool mipmap = true, bool srgb = false)
         {
-            return FromStream(window.Device, window.Factory, stream, mipmap, srgb);
+            return FromStream(context.Device, context.Factory, stream, mipmap, srgb);
         }
 
         public static Texture2D FromStream(GraphicsDevice device, ResourceFactory factory, Stream stream, bool mipmap = true, bool srgb = false)
@@ -30,9 +30,9 @@ namespace PlainCore
             return CreateTexture(device, factory, tex);
         }
 
-        public static Texture2D FromImage(Window window, Image<Rgba32> image, bool mipmap = true, bool srgb = false)
+        public static Texture2D FromImage(IGraphicsContext context, Image<Rgba32> image, bool mipmap = true, bool srgb = false)
         {
-            return FromImage(window.Device, window.Factory, image, mipmap, srgb);
+            return FromImage(context.Device, context.Factory, image, mipmap, srgb);
         }
 
         public static Texture2D FromImage(GraphicsDevice device, ResourceFactory factory, Image<Rgba32> image, bool mipmap = true, bool srgb = false)
@@ -41,9 +41,9 @@ namespace PlainCore
             return CreateTexture(device, factory, tex);
         }
 
-        public static Texture2D FromFile(Window window, string filename, bool mipmap = true, bool srgb = false)
+        public static Texture2D FromFile(IGraphicsContext context, string filename, bool mipmap = true, bool srgb = false)
         {
-            return FromFile(window.Device, window.Factory, filename, mipmap, srgb);
+            return FromFile(context.Device, context.Factory, filename, mipmap, srgb);
         }
 
         public static Texture2D FromFile(GraphicsDevice device, ResourceFactory factory, string filename, bool mipmap = true, bool srgb = false)

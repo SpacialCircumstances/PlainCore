@@ -28,7 +28,7 @@ namespace PlainCore
         {
         }
 
-        public SpriteRenderer(Window window, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders) : this(window.Device, window.Factory, framebuffer, loadShaders)
+        public SpriteRenderer(IGraphicsContext context, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders) : this(context.Device, context.Factory, framebuffer, loadShaders)
         {
         }
 
