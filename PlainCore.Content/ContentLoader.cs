@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Veldrid;
 
 namespace PlainCore.Content
 {
-    public class ContentLoader
+    public class ContentLoader: IGraphicsContext
     {
         private const string ASSET_LOADER_PROPERTY_NAME = "loader";
 
         private readonly IDictionary<string, object> loadedAssets = new Dictionary<string, object>();
         private readonly IDictionary<string, IAssetLoader> assetLoaders = new Dictionary<string, IAssetLoader>();
         private readonly JsonElement contentManifest;
+        private readonly IGraphicsContext graphicsContext;
 
-        public ContentLoader(JsonElement contentManifest, string rootDirectory)
+        public ContentLoader(IGraphicsContext graphicsContext, JsonElement contentManifest, string rootDirectory)
         {
             if (contentManifest.ValueKind != JsonValueKind.Object)
             {
@@ -27,11 +29,25 @@ namespace PlainCore.Content
                 throw new ArgumentException(nameof(rootDirectory), "Root directory must exist");
             }
 
+            this.graphicsContext = graphicsContext;
             this.contentManifest = contentManifest.Clone();
             RootDirectory = dir;
+            LoadDefaultAssetLoaders();
+        }
+
+        protected virtual void LoadDefaultAssetLoaders()
+        {
+            var texture2DLoader = new Texture2DLoader();
+            RegisterAssetLoader("Texture", texture2DLoader);
+            RegisterAssetLoader("Texture2D", texture2DLoader);
+            RegisterAssetLoader(texture2DLoader);
         }
 
         public string RootDirectory { get; }
+
+        public GraphicsDevice Device => graphicsContext.Device;
+
+        public ResourceFactory Factory => graphicsContext.Factory;
 
         public void RegisterAssetLoader(IAssetLoader loader)
         {
