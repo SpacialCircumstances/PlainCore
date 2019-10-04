@@ -4,7 +4,7 @@ using Veldrid.Sdl2;
 
 namespace PlainCore
 {
-    public class Window
+    public class Window: IGraphicsContext
     {
         public Window(GraphicsDevice device, ResourceFactory factory, Sdl2Window windowHandle, Action<RgbaFloat> clearCallback)
         {
