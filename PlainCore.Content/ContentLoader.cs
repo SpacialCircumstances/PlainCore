@@ -59,17 +59,25 @@ namespace PlainCore.Content
 
         protected T LoadAsset<T>(string name)
         {
-            var assetElement = contentManifest.GetProperty(name);
-            var assetLoaderName = assetElement.GetProperty(ASSET_LOADER_PROPERTY_NAME).GetString();
-            var assetLoader = GetAssetLoaderByName(assetLoaderName);
             Type assetType = typeof(T);
-            if (assetLoader.IsSupported(assetType))
+            if (contentManifest.TryGetProperty(name, out var assetElement))
             {
-                return (T)assetLoader.Load(assetElement, assetType, RootDirectory);
+                var assetLoaderName = assetElement.GetProperty(ASSET_LOADER_PROPERTY_NAME).GetString();
+                var assetLoader = GetAssetLoaderByName(assetLoaderName);
+                if (assetLoader.IsSupported(assetType))
+                {
+                    return (T)assetLoader.Load(assetElement, assetType, RootDirectory);
+                }
+                else
+                {
+                    throw new NotSupportedException($"Error loading asset {name}: Asset loader {assetLoaderName} does not support loading {assetType.Name}");
+                }
             }
             else
             {
-                throw new NotSupportedException($"Error loading asset {name}: Asset loader {assetLoaderName} does not support loading {assetType.Name}");
+                var assetLoader = GetAssetLoaderForType(assetType) ?? throw new NotSupportedException($"Error loading asset {name}: No asset loader specified and no compatible asset loader registered for ${assetType.Name}");
+                //We do not need to check for support here because GetAssetLoaderForType does that
+                return (T)assetLoader.Load(assetElement, assetType, RootDirectory);
             }
         }
 
