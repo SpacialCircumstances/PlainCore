@@ -6,6 +6,6 @@ namespace PlainCore.Content
     public interface IAssetLoader
     {
         bool IsSupported(Type type);
-        object Load(JsonElement parameters, Type type, string rootDirectory);
+        object Load(ContentLoader contentLoader, JsonElement parameters, Type type);
     }
 }

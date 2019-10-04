@@ -66,7 +66,7 @@ namespace PlainCore.Content
                 var assetLoader = GetAssetLoaderByName(assetLoaderName);
                 if (assetLoader.IsSupported(assetType))
                 {
-                    return (T)assetLoader.Load(assetElement, assetType, RootDirectory);
+                    return (T)assetLoader.Load(this, assetElement, assetType);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace PlainCore.Content
             {
                 var assetLoader = GetAssetLoaderForType(assetType) ?? throw new NotSupportedException($"Error loading asset {name}: No asset loader specified and no compatible asset loader registered for ${assetType.Name}");
                 //We do not need to check for support here because GetAssetLoaderForType does that
-                return (T)assetLoader.Load(assetElement, assetType, RootDirectory);
+                return (T)assetLoader.Load(this, assetElement, assetType);
             }
         }
 
