@@ -23,8 +23,10 @@ namespace PlainCore.Content
             {
                 var shaderProperty = parameters.GetProperty("shaders");
                 var vertexLayoutProperty = parameters.GetProperty("vertexLayout");
-                var vertexLayoutDescription = ParseDescription(vertexLayoutProperty);
-                return null;
+                var vertexLayoutDescription = ParseVertexLayoutDescription(vertexLayoutProperty);
+                var shaderDescriptions = ParseShaderDescriptions(shaderProperty);
+                var shaders = shaderDescriptions.Select(sd => contentLoader.Factory.CreateShader(sd)).ToArray();
+                return new ShaderSetDescription(new[] { vertexLayoutDescription }, shaders);
             }
             catch(Exception e)
             {
@@ -32,7 +34,12 @@ namespace PlainCore.Content
             }
         }
 
-        private VertexLayoutDescription ParseDescription(JsonElement json)
+        private IEnumerable<ShaderDescription> ParseShaderDescriptions(JsonElement json)
+        {
+            return null;
+        }
+
+        private VertexLayoutDescription ParseVertexLayoutDescription(JsonElement json)
         {
             if (json.ValueKind == JsonValueKind.String)
             {
