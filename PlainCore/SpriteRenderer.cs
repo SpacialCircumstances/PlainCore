@@ -22,25 +22,33 @@ namespace PlainCore
         private Pipeline pipeline;
         private ResourceLayout viewResourceLayout;
         private ResourceLayout graphicsResourceLayout;
-        private readonly Func<GraphicsBackend, Shader[]> loadShaders;
+        private ShaderSetDescription shaderSet;
 
-        public SpriteRenderer(Window window, Func<GraphicsBackend, Shader[]> loadShaders) : this(window, window.Framebuffer, loadShaders)
+        public SpriteRenderer(Window window, BlendStateDescription? bsd = null) : this(window, window.Framebuffer, bsd)
         {
         }
 
-        public SpriteRenderer(IGraphicsContext context, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders) : this(context.Device, context.Factory, framebuffer, loadShaders)
+        public SpriteRenderer(IGraphicsContext context, Framebuffer framebuffer, BlendStateDescription? blendStateDescription = null)
         {
+            this.device = context.Device;
+            this.factory = context.Factory;
+            this.framebuffer = framebuffer;
+            var vertexShader = factory.CreateShader(Shaders.SpritebatchDefaultVertexShader);
+            var fragmentShader = factory.CreateShader(Shaders.SpritebatchDefaultFragmentShader);
+            this.shaderSet = new ShaderSetDescription(new[] { VertexPosition2ColorTexture.VertexLayout }, new[] { vertexShader, fragmentShader });
+            Initialize(blendStateDescription ?? BlendStateDescription.SingleAlphaBlend);
         }
 
-        public SpriteRenderer(GraphicsDevice device, ResourceFactory factory, Framebuffer framebuffer, Func<GraphicsBackend, Shader[]> loadShaders)
+        public SpriteRenderer(GraphicsDevice device, ResourceFactory factory, Framebuffer framebuffer, ShaderSetDescription shaderSet, BlendStateDescription? blendStateDescription = null)
         {
             this.device = device;
             this.factory = factory;
             this.framebuffer = framebuffer;
-            this.loadShaders = loadShaders;
+            this.shaderSet = shaderSet;
+            Initialize(blendStateDescription ?? BlendStateDescription.SingleAlphaBlend);
         }
 
-        public void Initialize(BlendStateDescription? blendStateDescription = null)
+        private void Initialize(BlendStateDescription? blendStateDescription = null)
         {
             commandList = factory.CreateCommandList();
 
@@ -58,9 +66,6 @@ namespace PlainCore
             graphicsResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                 new ResourceLayoutElementDescription("TextureSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
-
-            var shaders = loadShaders(device.BackendType);
-            var shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
 
             var pipelineDescription = new GraphicsPipelineDescription(
                 blendStateDescription ?? BlendStateDescription.SingleAlphaBlend,

@@ -14,11 +14,7 @@ namespace PlainCore.HelloWorld
                             .UseDefaultClearFunction()
                             .Build();
 
-            var spriteRenderer = new SpriteRenderer(window, (gb) =>
-            {
-                return window.Factory.CreateFromSpirv(Shaders.SpritebatchDefaultVertexShader, Shaders.SpritebatchDefaultFragmentShader);
-            });
-            spriteRenderer.Initialize();
+            var spriteRenderer = new SpriteRenderer(window);
 
             var spritebatch = new SpriteBatch();
 
@@ -43,6 +39,8 @@ namespace PlainCore.HelloWorld
 
                 window.Display();
             }
+
+            spriteRenderer.Dispose();
         }
     }
 }
