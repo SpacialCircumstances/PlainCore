@@ -67,10 +67,12 @@ namespace PlainCore
                 new ResourceLayoutElementDescription("Texture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                 new ResourceLayoutElementDescription("TextureSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
+            var rasterizerStateDescription = new RasterizerStateDescription(FaceCullMode.None, PolygonFillMode.Solid, FrontFace.Clockwise, true, true);
+
             var pipelineDescription = new GraphicsPipelineDescription(
                 blendStateDescription ?? BlendStateDescription.SingleAlphaBlend,
                 DepthStencilStateDescription.DepthOnlyGreaterEqual,
-                RasterizerStateDescription.CullNone,
+                rasterizerStateDescription,
                 PrimitiveTopology.TriangleList,
                 shaderSet,
                 new[] { viewResourceLayout, graphicsResourceLayout },
@@ -78,7 +80,7 @@ namespace PlainCore
             pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
-        public unsafe void Render(SpriteBatch batch, View view, Sampler sampler = null)
+        public unsafe void Render(SpriteBatch batch, View view, Sampler sampler = null, IntRect? scissorRect = null)
         {
             var sprites = batch.GetSprites();
             int spriteCount = sprites.Count;
@@ -106,7 +108,7 @@ namespace PlainCore
                         var shouldFlush = !ReferenceEquals(item.Texture, tex);
                         if (shouldFlush)
                         {
-                            FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler);
+                            FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler, scissorRect);
 
                             tex = item.Texture;
                             index = 0;
@@ -119,14 +121,14 @@ namespace PlainCore
                         *(vertexArrayPtr + 3) = item.BottomRight;
                     }
 
-                    FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler);
+                    FlushVertexArray(vertexArrayFixedPtr, index, tex, view, sampler, scissorRect);
                 }
 
                 spriteCount -= batchSize;
             }
         }
 
-        private unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view, Sampler sampler)
+        private unsafe void FlushVertexArray(VertexPosition3ColorTexture* vertexArray, int vertexIndex, Texture2D texture, View view, Sampler sampler, IntRect? scissorRect)
         {
             if (texture == null) return;
 
@@ -142,6 +144,11 @@ namespace PlainCore
             commandList.Begin();
             commandList.SetFramebuffer(framebuffer);
             commandList.SetViewport(0, view.ScreenView);
+            if (scissorRect.HasValue)
+            {
+                var sr = scissorRect.Value;
+                commandList.SetScissorRect(0, (uint)sr.X, (uint)sr.Y, (uint)sr.Width, (uint)sr.Height);
+            }
             commandList.SetPipeline(pipeline);
             commandList.SetGraphicsResourceSet(0, viewResourceSet);
             commandList.SetGraphicsResourceSet(1, graphicsResourceSet);
