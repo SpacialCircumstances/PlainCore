@@ -1,6 +1,7 @@
 ﻿using PlainCore.Vertices;
 using System;
 using Veldrid;
+using Veldrid.SPIRV;
 
 namespace PlainCore
 {
@@ -33,9 +34,8 @@ namespace PlainCore
             this.device = context.Device;
             this.factory = context.Factory;
             this.framebuffer = framebuffer;
-            var vertexShader = factory.CreateShader(Shaders.SpritebatchDefaultVertexShader);
-            var fragmentShader = factory.CreateShader(Shaders.SpritebatchDefaultFragmentShader);
-            this.shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, new[] { vertexShader, fragmentShader });
+            var shaders = factory.CreateFromSpirv(Shaders.SpritebatchDefaultVertexShader, Shaders.SpritebatchDefaultFragmentShader);
+            this.shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, shaders);
             Initialize(blendStateDescription ?? BlendStateDescription.SingleAlphaBlend);
         }
 
