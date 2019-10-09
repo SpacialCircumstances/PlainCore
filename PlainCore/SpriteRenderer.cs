@@ -35,7 +35,7 @@ namespace PlainCore
             this.framebuffer = framebuffer;
             var vertexShader = factory.CreateShader(Shaders.SpritebatchDefaultVertexShader);
             var fragmentShader = factory.CreateShader(Shaders.SpritebatchDefaultFragmentShader);
-            this.shaderSet = new ShaderSetDescription(new[] { VertexPosition2ColorTexture.VertexLayout }, new[] { vertexShader, fragmentShader });
+            this.shaderSet = new ShaderSetDescription(new[] { VertexPosition3ColorTexture.VertexLayout }, new[] { vertexShader, fragmentShader });
             Initialize(blendStateDescription ?? BlendStateDescription.SingleAlphaBlend);
         }
 
