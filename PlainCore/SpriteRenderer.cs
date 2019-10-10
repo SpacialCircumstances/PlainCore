@@ -138,10 +138,9 @@ namespace PlainCore
             var grsd = new ResourceSetDescription(graphicsResourceLayout, texture.TextureView, sampler ?? device.PointSampler);
             var graphicsResourceSet = factory.CreateResourceSet(grsd);
 
-            device.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
-
             //TODO: Depth buffer
             commandList.Begin();
+            commandList.UpdateBuffer(vertexBuffer, 0, (IntPtr)vertexArray, (uint)vertexIndex * VERTEX_SIZE);
             commandList.SetFramebuffer(framebuffer);
             commandList.SetViewport(0, view.ScreenView);
             if (scissorRect.HasValue)
