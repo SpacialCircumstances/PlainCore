@@ -124,6 +124,16 @@ namespace PlainCore
             sprites.Add(sprite);
         }
 
+        public void DrawText(string text, Font font, Vector2 position, float depth = 0.0f)
+        {
+            DrawText(text, font, RgbaFloat.White, position, depth);
+        }
+
+        public void DrawText(string text, Font font, RgbaFloat color, Vector2 position, float depth = 0.0f)
+        {
+            DrawText(text, font, color, position.X, position.Y, 1.0f, depth);
+        }
+
         public void DrawText(string text, Font font, RgbaFloat color, float x, float y, float scale, float depth)
         {
             var texture = font.Texture;
