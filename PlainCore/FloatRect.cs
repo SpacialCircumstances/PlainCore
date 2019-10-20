@@ -2,7 +2,7 @@
 
 namespace PlainCore
 {
-    public struct FloatRect
+    public struct FloatRect: IRect<float>
     {
         public FloatRect(Vector2 position, Vector2 size)
         {
@@ -27,6 +27,16 @@ namespace PlainCore
         public float Top => Position.Y;
         public float Bottom => Position.Y + Size.Y;
         public float Right => Position.X + Size.X;
+
+        public bool Contains(float x, float y)
+        {
+            return x >= Left && x < Right && y >= Top && y < Bottom;
+        }
+
+        public bool Intersects(IRect<float> other)
+        {
+            return Contains(other.Left, other.Top) || Contains(other.Left, other.Bottom) || Contains(other.Right, other.Top) || Contains(other.Right, other.Bottom);
+        }
 
         public override bool Equals(object obj)
         {

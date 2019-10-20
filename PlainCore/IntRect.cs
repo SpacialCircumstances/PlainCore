@@ -1,6 +1,6 @@
 ﻿namespace PlainCore
 {
-    public struct IntRect
+    public struct IntRect: IRect<int>
     {
         public IntRect(int x, int y, int width, int height)
         {
@@ -41,6 +41,16 @@
             hashCode = hashCode * -1521134295 + Width.GetHashCode();
             hashCode = hashCode * -1521134295 + Height.GetHashCode();
             return hashCode;
+        }
+
+        public bool Contains(int x, int y)
+        {
+            return x >= Left && x < Right && y >= Top && y < Bottom;
+        }
+
+        public bool Intersects(IRect<int> other)
+        {
+            return Contains(other.Left, other.Top) || Contains(other.Left, other.Bottom) || Contains(other.Right, other.Top) || Contains(other.Right, other.Bottom);
         }
 
         public static bool operator ==(IntRect left, IntRect right)
