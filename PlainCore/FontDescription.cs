@@ -1,5 +1,6 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Numerics;
 
 namespace PlainCore
 {
@@ -22,6 +23,26 @@ namespace PlainCore
         public override string ToString()
         {
             return $"{Metadata.FamilyName} {Metadata.SubfamilyName} ({Metadata.Size}) ({Metadata.Style})";
+        }
+
+        public Vector2 MeasureString(string text, float scale = 1.0f)
+        {
+            float pen = 0f;
+            float y = 0f;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                char character = text[i];
+                var glyph = Glyphs[character];
+                float h = glyph.Size.Y + glyph.Bearing.Y;
+                if (h > y)
+                {
+                    y = h;
+                }
+                pen += glyph.Advance * scale;
+            }
+
+            return new Vector2(pen, y);
         }
     }
 }
