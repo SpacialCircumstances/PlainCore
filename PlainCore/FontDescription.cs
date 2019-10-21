@@ -34,7 +34,7 @@ namespace PlainCore
             {
                 char character = text[i];
                 var glyph = Glyphs[character];
-                float h = glyph.Size.Y + glyph.Bearing.Y;
+                float h = (glyph.Size.Y + glyph.Bearing.Y) * scale;
                 if (h > y)
                 {
                     y = h;
