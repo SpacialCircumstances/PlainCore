@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0-alpha2</Version>
+    <Version>0.1.0-alpha3</Version>
     <Authors>SpacialCircumstances</Authors>
     <Company>SpacialCircumstances</Company>
     <Description>A 2D library for .NET Core</Description>
